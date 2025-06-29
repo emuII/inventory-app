@@ -1,0 +1,13 @@
+.lb-active {
+  background: #4ce01f !important;
+  padding: 0px 20px 2px 20px !important;
+  color: white !important;
+  border-radius: 6px !important;
+}
+
+.lb-nonactive {
+  background: #ffb800 !important;
+  padding: 0px 20px 2px 20px !important;
+  color: white !important;
+  border-radius: 6px !important;
+}
