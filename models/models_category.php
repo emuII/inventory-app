@@ -14,17 +14,17 @@ class models_category
         $filter_status  = htmlentities($_POST['filter_status'] ?? '');
 
         $sql = "SELECT mct.category_id,
-       mct.category_code,
-       mct.category_name,
-       mct.category_desc,
-       mct.category_status,
-    mst.status_name,
-       mst.status_id
-FROM m_category mct
-    JOIN m_status mst
-        ON mct.category_status = mst.value_id
-WHERE mct.category_status != 3
-";
+            mct.category_code,
+            mct.category_name,
+            mct.category_desc,
+            mct.category_status,
+            mst.status_name,
+            mst.status_desc,
+            mst.status_id
+        FROM m_category mct
+            JOIN m_status mst
+                ON mct.category_status = mst.value_id
+        WHERE mct.category_status != 3";
 
         $params = [];
         if (!empty($filter_code)) {

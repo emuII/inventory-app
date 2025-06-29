@@ -17,17 +17,18 @@ class models_product
         $filter_brand    = htmlentities($_POST['filter_brand'] ?? '');
 
         $sql = "SELECT prd.product_id, prd.product_code, prd.product_name, prd.category_id, prd.supplier_id,
-       prd.brand_id, prd.product_qty, FORMAT(prd.product_price, 0, 'id-ID') as product_price, prd.product_status,
-       mct.category_name, mct.category_id,
-       msu.supplier_id, msu.supplier_name,
-       mbr.brand_id, mbr.brand_name,
-       mst.* 
-    FROM m_product prd
-    JOIN m_category mct ON prd.category_id = mct.category_id
-    JOIN m_supplier msu ON prd.supplier_id = msu.supplier_id
-    JOIN m_brand mbr ON prd.brand_id = mbr.brand_id
-    JOIN m_status mst ON prd.product_status = mst.status_id
-    WHERE prd.product_status != 3 AND mct.category_status != 3 AND msu.supplier_status != 3 AND mbr.brand_status != 3";
+                    prd.brand_id, prd.product_qty, FORMAT(prd.product_price, 0, 'id-ID') as product_price, prd.product_status,
+                    mct.category_name, mct.category_id,
+                    msu.supplier_id, msu.supplier_name,
+                    mbr.brand_id, mbr.brand_name,
+                    mst.* 
+                    FROM m_product prd
+                    JOIN m_category mct ON prd.category_id = mct.category_id
+                    JOIN m_supplier msu ON prd.supplier_id = msu.supplier_id
+                    JOIN m_brand mbr ON prd.brand_id = mbr.brand_id
+                    JOIN m_status mst ON prd.product_status = mst.status_id
+                    WHERE prd.product_status != 3 AND mct.category_status != 3
+                    AND msu.supplier_status != 3 AND mbr.brand_status != 3";
 
         $params = [];
 
@@ -64,13 +65,25 @@ class models_product
     }
 
 
-    public function get_brand_by_code($brand_code)
+    public function get_product_by_code($product_code)
     {
-        $sql = "SELECT mst.status_name, mst.status_id, brn.* FROM m_brand brn
-                JOIN m_status mst on brn.brand_status = mst.value_id
-                WHERE brn.brand_code = ?";
+        $sql = "SELECT 
+            prd.product_code,
+            prd.product_name,
+            prd.category_id,
+            prd.supplier_id,
+            prd.brand_id,
+            prd.product_qty,
+            prd.product_price,
+            prd.product_status
+        FROM m_product prd
+        JOIN m_category mct ON prd.category_id = mct.category_id
+        JOIN m_supplier msu ON prd.supplier_id = msu.supplier_id
+        JOIN m_brand mbr ON prd.brand_id = mbr.brand_id
+        JOIN m_status mst ON prd.product_status = mst.status_id
+        WHERE prd.product_code = ?";
         $row = $this->db->prepare($sql);
-        $row->execute(array($brand_code));
+        $row->execute(array($product_code));
         $response = $row->fetch();
         return $response;
     }

@@ -19,19 +19,19 @@ class ProductController
         foreach ($data as $index => $row) {
             echo "<tr>
     <td style='width: 5%;'>" . ($index + 1) . "</td>
-    <td>{$row['product_code']}</td>
-    <td>{$row['product_name']}</td>
-    <td>{$row['category_name']}</td>
-    <td>{$row['supplier_name']}</td>
-    <td>{$row['brand_name']}</td>
-    <td>{$row['product_qty']}</td>
-    <td>{$row['product_price']}</td>
-    <td><label class=" . $row['status_desc'] . ">{$row['status_name']}</label></td>
-       <td>
-                    <a href='index.php?route=brand/edit&brand_code={$row['product_code']}' class='btn btn-sm btn-primary'>Edit</a>
-                    <a href='service/brandService.php?delete_brand=delete&brand_code={$row['product_code']}'
-                        onclick='return confirm(\"Delete this supplier?\")' class='btn btn-sm btn-danger'>Delete</a>
-                </td>
+    <td style='width: 10%;'>{$row['product_code']}</td>
+    <td style='width: 15%;'>{$row['product_name']}</td>
+    <td style='width: 10%;'>{$row['category_name']}</td>
+    <td style='width: 10%;'>{$row['supplier_name']}</td>
+    <td style='width: 10%;'>{$row['brand_name']}</td>
+    <td style='width: 5%;'>{$row['product_qty']}</td>
+    <td style='width: 10%;'>{$row['product_price']}</td>
+    <td style='width: 10%;'><label class='" . $row['status_desc'] . "'>{$row['status_name']}</label></td>
+    <td style='width: 15%;'>
+        <a href='index.php?route=product/edit&product_code={$row['product_code']}' class='btn btn-sm btn-primary'>Edit</a>
+        <a href='service/brandService.php?delete_brand=delete&product_code={$row['product_code']}'
+            onclick='return confirm(\"Delete this supplier?\")' class='btn btn-sm btn-danger'>Delete</a>
+    </td>
 </tr>";
         }
     }

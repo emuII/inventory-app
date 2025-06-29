@@ -13,7 +13,7 @@ class models_supplier
         $filter_contact = htmlentities($_POST['filter_contact'] ?? '');
         $filter_status  = htmlentities($_POST['filter_status'] ?? '');
 
-        $sql = "SELECT mst.status_name, msp.* FROM m_supplier msp
+        $sql = "SELECT mst.status_name,mst.status_desc, msp.* FROM m_supplier msp
             JOIN m_status mst ON msp.supplier_status = mst.value_id
             WHERE mst.value_id != 3";
 
@@ -45,7 +45,7 @@ class models_supplier
 
     public function get_supplier_by_code($supplier_code)
     {
-        $sql = "SELECT mst.status_name, mst.status_id, msp.* FROM m_supplier msp
+        $sql = "SELECT mst.status_name, mst.status_desc, mst.status_id, msp.* FROM m_supplier msp
                 JOIN m_status mst on msp.supplier_status = mst.value_id
                 WHERE msp.supplier_code = ?";
         $row = $this->db->prepare($sql);
