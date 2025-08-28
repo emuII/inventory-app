@@ -7,10 +7,12 @@ if (!empty($_SESSION['active_login'])) {
         $product_code = htmlentities($_POST['product_code']);
         $product_name = htmlentities($_POST['product_name']);
         $product_category = htmlentities($_POST['product_category']);
-        $product_supplier = htmlentities($_POST['product_supplier']);
+        $product_type = htmlentities($_POST['product_type']);
         $product_brand = htmlentities($_POST['product_brand']);
         $product_qty = htmlentities($_POST['product_qty']);
-        $product_price = htmlentities($_POST['product_price']);
+        $purchase_price = htmlentities($_POST['purchase_price']);
+        $selling_price = htmlentities($_POST['selling_price']);
+        $product_supplier = htmlentities($_POST['product_supplier']);
         $product_status = htmlentities($_POST['product_status']);
 
 
@@ -18,50 +20,55 @@ if (!empty($_SESSION['active_login'])) {
             $product_code,
             $product_name,
             $product_category,
-            $product_supplier,
+            $product_type,
             $product_brand,
             $product_qty,
-            $product_price,
+            $purchase_price,
+            $selling_price,
+            $product_supplier,
             $product_status
         ];
 
 
-        $query = 'INSERT INTO m_product(product_code, product_name, category_id, supplier_id, brand_id, product_qty, product_price, product_status)
-        VALUES (?,?,?,?,?,?,?,?)';
+        $query = 'INSERT INTO m_product(product_code, product_name, category_id, type_id, brand_id, product_qty, purchase_price, selling_price, supplier_id, product_status)
+        VALUES (?,?,?,?,?,?,?,?,?,?)';
         $row = $config->prepare($query);
         $row->execute($dto);
-        echo '<script>window.location="../index.php?route=product&success=tambah-data"</script>';
+        echo '<script>window.location="../index.php?route=productIn&success=tambah-data"</script>';
     }
 
     if (!empty($_GET['edit_product'])) {
         $product_code = htmlentities($_POST['product_code']);
         $product_name = htmlentities($_POST['product_name']);
         $product_category = htmlentities($_POST['product_category']);
-        $product_supplier = htmlentities($_POST['product_supplier']);
+        $product_type = htmlentities($_POST['product_type']);
         $product_brand = htmlentities($_POST['product_brand']);
         $product_qty = htmlentities($_POST['product_qty']);
-        $product_price = htmlentities($_POST['product_price']);
+        $purchase_price = htmlentities($_POST['purchase_price']);
+        $selling_price = htmlentities($_POST['selling_price']);
+        $product_supplier = htmlentities($_POST['product_supplier']);
         $product_status = htmlentities($_POST['product_status']);
-
 
         $dto = [
             $product_name,
             $product_category,
-            $product_supplier,
+            $product_type,
             $product_brand,
             $product_qty,
-            $product_price,
+            $purchase_price,
+            $selling_price,
+            $product_supplier,
             $product_status,
             $product_code
         ];
 
         $query = "UPDATE m_product 
         SET product_name=?, category_id=?,
-        supplier_id=?,brand_id=?,product_qty=?,product_price=?,
+        type_id=?,brand_id=?,product_qty=?,purchase_price=?, selling_price=?, supplier_id=?,
         product_status=? WHERE product_code =?";
         $row = $config->prepare($query);
         $row->execute($dto);
-        echo '<script>window.location="../index.php?route=product/edit&product_code=' . $product_code . ' &success=edit-product"</script>';
+        echo '<script>window.location="../index.php?route=productIn/edit&product_code=' . $product_code . ' &success=edit-product"</script>';
     }
 
 

@@ -30,14 +30,15 @@
                            </select>
                        </td>
                    </tr>
+
                    <tr>
-                       <td>Supplier</td>
+                       <td>Type</td>
                        <td>
-                           <select class="form-control select2" required name="product_supplier">
+                           <select class="form-control select2" required name="product_type">
                                <option value=""></option>
-                               <?php $response_data = $supplier_model->get_supplier_active();
+                               <?php $response_data = $type_model->get_type();
                                 foreach ($response_data as $obj) {     ?>
-                                   <option value="<?php echo $obj['supplier_id']; ?>"><?php echo $obj['supplier_name']; ?></option>
+                                   <option value="<?php echo $obj['type_id']; ?>"><?php echo $obj['type_name']; ?></option>
                                <?php } ?>
                            </select>
                        </td>
@@ -55,15 +56,33 @@
                        </td>
                    </tr>
                    <tr>
-                       <td>Product Qty</td>
+                       <td>Qty</td>
                        <td>
                            <input type="number" class="form-control" name="product_qty" id="">
                        </td>
                    </tr>
                    <tr>
-                       <td>Product Price</td>
+                       <td>Purchase Price </td>
                        <td>
-                           <input type="text" class="form-control" name="product_price" id="">
+                           <input type="text" class="form-control" name="purchase_price" id="">
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>Selling Price </td>
+                       <td>
+                           <input type="text" class="form-control" name="selling_price" id="">
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>Supplier</td>
+                       <td>
+                           <select class="form-control select2" required name="product_supplier">
+                               <option value=""></option>
+                               <?php $response_data = $supplier_model->get_supplier_active();
+                                foreach ($response_data as $obj) {     ?>
+                                   <option value="<?php echo $obj['supplier_id']; ?>"><?php echo $obj['supplier_name']; ?></option>
+                               <?php } ?>
+                           </select>
                        </td>
                    </tr>
                    <tr>

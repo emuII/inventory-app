@@ -34,10 +34,22 @@ $profile = $user_model->get_user_by_id($id);
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="index.php?route=product">Product</a>
                 <a class="collapse-item" href="index.php?route=supplier">Supplier</a>
                 <a class="collapse-item" href="index.php?route=category">Category</a>
                 <a class="collapse-item" href="index.php?route=brand">Brand</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
+            aria-controls="collapseThree">
+            <i class="fas fa-fw fa-database"></i>
+            <span>Transaction</span>
+        </a>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="index.php?route=productIn">Product In</a>
+                <a class="collapse-item" href="index.php?route=productOut">Product Out</a>
             </div>
         </div>
     </li>

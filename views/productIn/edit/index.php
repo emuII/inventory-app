@@ -3,8 +3,8 @@
     $response = $product_model->get_product_by_code($product_code);
     ?>
 
-   <a href="index.php?route=product" class="btn btn-primary mb-3"><i class="fa fa-angle-left"></i> Back </a>
-   <h4>Edit Supplier</h4>
+   <a href="index.php?route=productIn" class="btn btn-primary mb-3"><i class="fa fa-angle-left"></i> Back </a>
+   <h4>Edit Product</h4>
    <?php if (isset($_GET['success'])) { ?>
        <div class="alert alert-success">
            <p>Success !</p>
@@ -46,14 +46,14 @@
                        </td>
                    </tr>
                    <tr>
-                       <td>Supplier</td>
+                       <td>Type</td>
                        <td>
-                           <select class="form-control select2" required name="product_supplier">
+                           <select class="form-control select2" required name="product_type">
                                <option value=""></option>
-                               <?php $response_data = $supplier_model->get_supplier_active();
+                               <?php $response_data = $type_model->get_type();
                                 foreach ($response_data as $obj) {     ?>
-                                   <option value="<?php echo $obj['supplier_id']; ?>"
-                                       <?php if ($obj["supplier_id"] == $response["supplier_id"]) echo "selected"; ?>><?php echo $obj['supplier_name']; ?></option>
+                                   <option value="<?php echo $obj['type_id']; ?>"
+                                       <?php if ($obj["type_id"] == $response["type_id"]) echo "selected"; ?>><?php echo $obj['type_name']; ?></option>
                                <?php } ?>
                            </select>
                        </td>
@@ -72,15 +72,34 @@
                        </td>
                    </tr>
                    <tr>
-                       <td>Product Qty</td>
+                       <td>Qty</td>
                        <td>
                            <input type="number" class="form-control" name="product_qty" value="<?php echo $response['product_qty']; ?>" id="">
                        </td>
                    </tr>
                    <tr>
-                       <td>Product Price</td>
+                       <td>Purchase Price </td>
                        <td>
-                           <input type="text" class="form-control" name="product_price" value="<?php echo $response['product_price']; ?>">
+                           <input type="text" class="form-control" name="purchase_price" id="" value="<?php echo $response['purchase_price']; ?>">
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>Selling Price </td>
+                       <td>
+                           <input type="text" class="form-control" name="selling_price" id="" value="<?php echo $response['selling_price']; ?>">
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>Supplier</td>
+                       <td>
+                           <select class="form-control select2" required name="product_supplier">
+                               <option value=""></option>
+                               <?php $response_data = $supplier_model->get_supplier_active();
+                                foreach ($response_data as $obj) {     ?>
+                                   <option value="<?php echo $obj['supplier_id']; ?>"
+                                       <?php if ($obj["supplier_id"] == $response["supplier_id"]) echo "selected"; ?>><?php echo $obj['supplier_name']; ?></option>
+                               <?php } ?>
+                           </select>
                        </td>
                    </tr>
                    <tr>

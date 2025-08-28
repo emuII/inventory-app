@@ -1,6 +1,6 @@
-        <h3>Product</h3>
+        <h3>Product In</h3>
         <br />
-        <a href='index.php?route=product/add' class='btn btn-primary btn-md mr-2'>
+        <a href='index.php?route=productIn/add' class='btn btn-primary btn-md mr-2'>
             <i class="fa fa-plus"></i> Insert Data</a>
         <div class="clearfix"></div>
         <br />
@@ -96,10 +96,12 @@
                             <th>Product Code</th>
                             <th>Product Name</th>
                             <th>Category Name</th>
-                            <th>Supplier Name</th>
+                            <th>Type</th>
                             <th>Brand</th>
-                            <th>Product Qty</th>
-                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Purchase Price</th>
+                            <th>Selling Price</th>
+                            <th>Supplier</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -119,7 +121,7 @@
             function searchProduct() {
                 $.ajax({
                     type: 'POST',
-                    url: 'middleware/ajax_handler.php?controller=product&action=product_list',
+                    url: 'middleware/ajax_handler.php?controller=productin&action=product_list',
                     data: $('#searchForm').serialize(),
                     success: function(response) {
                         console.log(response)
