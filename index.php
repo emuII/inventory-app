@@ -10,6 +10,7 @@ if (!empty($_SESSION['active_login'])) {
     $product_model = new models_product($config);
     $user_model = new models_user($config);
     $type_model = new models_type($config);
+    $product_out = new models_out($config);
     $helper_model = new heper_model($config);
 
     include 'components/header.php';

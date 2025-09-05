@@ -48,8 +48,8 @@ $profile = $user_model->get_user_by_id($id);
         </a>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="index.php?route=productIn">Product In</a>
-                <a class="collapse-item" href="index.php?route=productOut">Product Out</a>
+                <a class="collapse-item" href="index.php?route=productIn">Purchase</a>
+                <a class="collapse-item" href="index.php?route=productOut">Sales</a>
             </div>
         </div>
     </li>

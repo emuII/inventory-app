@@ -84,10 +84,9 @@ class models_product
         return $row->fetchAll();
     }
 
-
     public function get_product_by_code($product_code)
     {
-        $sql = "SELECT prd.product_code,
+        $sql = "SELECT prd.product_code,prd.product_id,
                         prd.product_name,
                         prd.category_id,
                         prd.supplier_id,
@@ -96,7 +95,11 @@ class models_product
                         prd.purchase_price,
                         prd.selling_price,
                         prd.product_status,
-                        mtp.type_id
+                        mtp.type_id,
+                        mtp.type_name,
+                        msu.supplier_name,
+                        mbr.brand_name,
+                        mct.category_name
                     FROM m_product prd
                         JOIN m_category mct
                             ON prd.category_id = mct.category_id
@@ -112,6 +115,28 @@ class models_product
         $row = $this->db->prepare($sql);
         $row->execute(array($product_code));
         $response = $row->fetch();
+        return $response;
+    }
+
+    public function get_all_product()
+    {
+
+        $sql = "SELECT pr.product_id,
+                    pr.product_code,
+                    pr.product_name
+                FROM m_product pr
+                    JOIN m_category ct
+                        ON pr.category_id = ct.category_id
+                    JOIN m_supplier sp
+                        ON pr.supplier_id = sp.supplier_id
+                    JOIN m_brand br
+                        ON pr.brand_id = br.brand_id
+                    JOIN m_status mst
+                        ON pr.product_status = mst.status_id
+                WHERE pr.product_status != 3";
+        $row = $this->db->prepare($sql);
+        $row->execute();
+        $response = $row->fetchAll();
         return $response;
     }
 }

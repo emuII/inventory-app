@@ -18,23 +18,38 @@ class ProductInController
 
         foreach ($data as $index => $row) {
             echo "<tr>
-    <td style='width: 5%;'>" . ($index + 1) . "</td>
-    <td style='width: 10%;'>{$row['product_code']}</td>
-    <td style='width: 15%;'>{$row['product_name']}</td>
-    <td style='width: 10%;'>{$row['category_name']}</td>
-    <td style='width: 10%;'>{$row['type_name']}</td>
-    <td style='width: 10%;'>{$row['brand_name']}</td>
-    <td style='width: 5%;'>{$row['product_qty']}</td>
-    <td style='width: 10%;'>{$row['purchase_price']}</td>
-    <td style='width: 10%;'>{$row['selling_price']}</td>
-    <td style='width: 10%;'>{$row['supplier_name']}</td>
-    <td style='width: 10%;'><label class='" . $row['status_desc'] . "'>{$row['status_name']}</label></td>
-    <td style='width: 15%;'>
-        <a href='index.php?route=productIn/edit&product_code={$row['product_code']}' class='btn btn-sm btn-primary'>Edit</a>
-        <a href='service/brandService.php?delete_brand=delete&product_code={$row['product_code']}'
-            onclick='return confirm(\"Delete this supplier?\")' class='btn btn-sm btn-danger'>Delete</a>
-    </td>
-</tr>";
+                    <td style='width: 5%;'>" . ($index + 1) . "</td>
+                    <td style='width: 10%;'>{$row['product_code']}</td>
+                    <td style='width: 15%;'>{$row['product_name']}</td>
+                    <td style='width: 10%;'>{$row['category_name']}</td>
+                    <td style='width: 10%;'>{$row['type_name']}</td>
+                    <td style='width: 10%;'>{$row['brand_name']}</td>
+                    <td style='width: 5%;'>{$row['product_qty']}</td>
+                    <td style='width: 10%;'>{$row['purchase_price']}</td>
+                    <td style='width: 10%;'>{$row['selling_price']}</td>
+                    <td style='width: 10%;'>{$row['supplier_name']}</td>
+                    <td style='width: 10%;'><label class='" . $row['status_desc'] . "'>{$row['status_name']}</label></td>
+                    <td style='width: 15%;'>
+                        <a href='index.php?route=productIn/edit&product_code={$row['product_code']}' class='btn btn-sm btn-primary'>Edit</a>
+                        <a href='service/brandService.php?delete_brand=delete&product_code={$row['product_code']}'
+                            onclick='return confirm(\"Delete this supplier?\")' class='btn btn-sm btn-danger'>Delete</a>
+                    </td>
+                </tr>";
         }
+    }
+
+    public function get_product_code($product_code = null)
+    {
+        header('Content-Type: application/json');
+
+        $code = trim($product_code ?? ($_POST['product_code'] ?? ($_GET['product_code'] ?? '')));
+        if ($code === '') {
+            http_response_code(400);
+            echo json_encode(['error' => 'product_code is required']);
+            return;
+        }
+
+        $data = $this->model->get_product_by_code($code);
+        echo json_encode($data ?: null);
     }
 }

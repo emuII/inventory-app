@@ -1,4 +1,4 @@
-        <h3>Product In</h3>
+        <h3>Purchase</h3>
         <br />
         <a href='index.php?route=productIn/add' class='btn btn-primary btn-md mr-2'>
             <i class="fa fa-plus"></i> Insert Data</a>
