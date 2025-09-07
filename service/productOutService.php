@@ -9,7 +9,7 @@ if (!empty($_SESSION['active_login'])) {
         $prod_id       = (int)($_POST['prod_id']   ?? 0);
         $available_qty = (int)($_POST['qty_av']  ?? 0);
         $newqty        = (int)($_POST['out_qty']        ?? 0);
-        $selling_price = (int)($_POST['selling_price']  ?? 0);
+        $selling_price = (float)($_POST['selling_price']  ?? 0);
         $notes         = trim($_POST['notes'] ?? '');
 
         if ($prod_id <= 0) {
@@ -45,5 +45,34 @@ if (!empty($_SESSION['active_login'])) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
         exit;
+    }
+
+    if (!empty($_GET['edit_sales'])) {
+        $out_qty       = (int)($_POST['out_qty']   ?? 0);
+        $selling_price = (float)($_POST['selling_price']  ?? 0);
+        $notes         = trim($_POST['notes'] ?? '');
+        $out_id = (int)($_POST['out_id']   ?? 0);
+
+        $dto = [
+            $out_qty,
+            $selling_price,
+            $notes,
+            $out_id
+        ];
+
+        $sql = "UPDATE product_out SET qty_out=?,selling_price=?,note=? WHERE out_id=?";
+        $row = $config->prepare($sql);
+        $row->execute($dto);
+        echo '<script>window.location="../index.php?route=productOut/edit&out_id=' . $out_id . ' &success=edit-sales"</script>';
+    }
+
+    if (!empty($_GET['delete_sales'])) {
+        $out_id = htmlentities($_GET['out_id']);
+
+        $dto = [$out_id];
+        $query = 'DELETE FROM product_out WHERE out_id =?';
+        $row = $config->prepare($query);
+        $row->execute($dto);
+        echo '<script>window.location="../index.php?route=productout&success=remove-sales"</script>';
     }
 }

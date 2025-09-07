@@ -50,7 +50,7 @@
                        <td><textarea class="form-control" name="notes" id=""></textarea></td>
                    </tr>
                </table>
-               <a href="index.php?route=product" class="btn btn-secondary mb-3"><i class="fa fa-angle-left"></i> Close </a>
+               <a href="index.php?route=productOut" class="btn btn-secondary mb-3"><i class="fa fa-angle-left"></i> Close </a>
                <button type="submit" class="btn btn-primary  mb-3">Submit</button>
            </form>
        </div>

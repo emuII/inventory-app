@@ -77,4 +77,40 @@ class models_out
         $row->execute($params);
         return $row->fetchAll();
     }
+
+    public function get_product_sales_by_id($out_id)
+    {
+        $sql = "SELECT ot.out_id,
+                    ot.product_id,
+                    ot.qty_out,
+                    ot.selling_price,
+                    ot.date_out,
+                    ot.note,
+                    ot.created_at,
+                    ms.supplier_name,
+                    mc.category_name,
+                    mt.type_name,
+                    pd.product_name,
+                    mb.brand_id,
+                    mb.brand_name,
+                    pd.product_qty
+                FROM product_out ot
+                    JOIN m_product pd
+                        ON ot.product_id = pd.product_id
+                    JOIN m_category mc
+                        ON pd.category_id = mc.category_id
+                    JOIN m_supplier ms
+                        ON pd.supplier_id = ms.supplier_id
+                    JOIN m_status st
+                        ON pd.product_status = st.status_id
+                    JOIN m_type mt
+                        ON pd.type_id = mt.type_id
+                    JOIN m_brand mb
+                    ON pd.brand_id = mb.brand_id
+                WHERE ot.out_id =?";
+        $row = $this->db->prepare($sql);
+        $row->execute(array($out_id));
+        $response = $row->fetch();
+        return $response;
+    }
 }

@@ -31,8 +31,8 @@ class ProductInController
                     <td style='width: 10%;'><label class='" . $row['status_desc'] . "'>{$row['status_name']}</label></td>
                     <td style='width: 15%;'>
                         <a href='index.php?route=productIn/edit&product_code={$row['product_code']}' class='btn btn-sm btn-primary'>Edit</a>
-                        <a href='service/brandService.php?delete_brand=delete&product_code={$row['product_code']}'
-                            onclick='return confirm(\"Delete this supplier?\")' class='btn btn-sm btn-danger'>Delete</a>
+                        <a href='service/productService.php?delete_product=delete&product_code={$row['product_code']}'
+                            onclick='return confirm(\"Delete this Product?\")' class='btn btn-sm btn-danger'>Delete</a>
                     </td>
                 </tr>";
         }

@@ -72,13 +72,13 @@ if (!empty($_SESSION['active_login'])) {
     }
 
 
-    if (!empty($_GET['delete_brand'])) {
-        $category_code = htmlentities($_GET['brand_code']);
+    if (!empty($_GET['delete_product'])) {
+        $product_code = htmlentities($_GET['product_code']);
 
-        $dto = [$category_code];
-        $query = 'UPDATE m_brand SET brand_status = 3 WHERE brand_code =?';
+        $dto = [$product_code];
+        $query = 'UPDATE m_product SET product_status = 3 WHERE product_code =?';
         $row = $config->prepare($query);
         $row->execute($dto);
-        echo '<script>window.location="../index.php?route=brand&success=remove-brand"</script>';
+        echo '<script>window.location="../index.php?route=productin&success=remove-product"</script>';
     }
 }
