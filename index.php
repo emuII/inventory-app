@@ -4,14 +4,12 @@ session_start();
 if (!empty($_SESSION['active_login'])) {
     require 'config/database.php';
 
-    $supplier_model = new models_supplier($config);
-    $category_model = new models_category($config);
-    $brand_model = new models_brand($config);
-    $product_model = new models_product($config);
-    $user_model = new models_user($config);
-    $type_model = new models_type($config);
-    $product_out = new models_out($config);
-    $helper_model = new heper_model($config);
+    $supplier_model = new supplierModel($config);
+    $user_model = new userModel($config);
+    $helper_model = new helperModel($config);
+    $item_model = new itemModel($config);
+    $approval_member = new approvalMemberModel($config);
+
 
     include 'components/header.php';
     include 'components/sidebar.php';

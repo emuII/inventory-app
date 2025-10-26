@@ -1,6 +1,6 @@
 <?php
 
-class models_type
+class typeModel
 {
     protected $db;
     public function __construct($db)

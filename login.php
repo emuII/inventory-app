@@ -7,7 +7,7 @@ if (isset($_POST['proses'])) {
     $user = strip_tags($_POST['user']);
     $pass = strip_tags($_POST['pass']);
 
-    $sql = 'SELECT id_user, username, password, role FROM m_user WHERE username = ? and password = md5(?)';
+    $sql = 'SELECT id, username, password, email, role FROM m_user WHERE username = ? and password = md5(?)';
     $row = $config->prepare($sql);
     $row->execute(array($user, $pass));
     $resdata = $row->rowCount();
@@ -16,7 +16,7 @@ if (isset($_POST['proses'])) {
         $_SESSION['active_login'] = $respnse;
         echo '<script>window.location="index.php"</script>';
     } else {
-        echo '<script>alert("login failed");history.go(-1);</window.location=>';
+        echo '<script>alert("login failed");history.go(-1);</script>';
     }
 }
 ?>

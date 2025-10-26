@@ -20,7 +20,7 @@ if (!empty($_SESSION['active_login'])) {
         ];
 
 
-        $query = 'INSERT INTO `m_supplier`(`supplier_code`, `supplier_name`, `supplier_address`, `supplier_contact`, `supplier_status`) VALUES (?,?,?,?,?)';
+        $query = 'INSERT INTO `m_supplier`(`supplier_code`, `supplier_name`, `supplier_address`, `supplier_contact`, `status`) VALUES (?,?,?,?,?)';
         $row = $config->prepare($query);
         $row->execute($dto);
         echo '<script>window.location="../index.php?route=supplier&&success=tambah-data"</script>';
@@ -41,7 +41,7 @@ if (!empty($_SESSION['active_login'])) {
             $supplier_code
         ];
 
-        $query = 'UPDATE m_supplier SET supplier_name=?,supplier_address=?,supplier_contact=?,supplier_status=? WHERE supplier_code =?';
+        $query = 'UPDATE m_supplier SET supplier_name=?,supplier_address=?,supplier_contact=?,status=? WHERE supplier_code =?';
         $row = $config->prepare($query);
         $row->execute($dto);
         echo '<script>window.location="/inventory-app/index.php?route=supplier/edit&supplier_code=' . $supplier_code . ' &success=edit-supplier"</script>';
@@ -51,7 +51,7 @@ if (!empty($_SESSION['active_login'])) {
         $supplier_code = htmlentities($_GET['supplier_code']);
 
         $dto = [$supplier_code];
-        $query = 'UPDATE m_supplier SET supplier_status = 3 WHERE supplier_code =?';
+        $query = 'UPDATE m_supplier SET status = 3 WHERE supplier_code =?';
         $row = $config->prepare($query);
         $row->execute($dto);
         echo '<script>window.location="../index.php?route=supplier&success=remove-supplier"</script>';

@@ -1,17 +1,23 @@
 <?php
-
 date_default_timezone_set("Asia/Jakarta");
-error_reporting(0);
 
-$host     = 'localhost';
-$user     = 'root';
-$pass     = '';
-$dbname = 'inventory-system';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$host   = 'localhost';
+$user   = 'root';
+$pass   = '';
+$dbname = 'inventory-app';
 
 try {
-    $config = new PDO("mysql:host=$host;dbname=$dbname;", $user, $pass);
+    $config = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+    $config->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $config->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+    $pdo = $config;
 } catch (PDOException $e) {
-    echo 'Connection Failed' . $e->getMessage();
+    die('Connection Failed: ' . $e->getMessage());
 }
 
 spl_autoload_register(function ($class_name) {
@@ -20,6 +26,3 @@ spl_autoload_register(function ($class_name) {
         require_once $file;
     }
 });
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);

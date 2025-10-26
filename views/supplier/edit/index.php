@@ -42,10 +42,10 @@
                      <td>
                          <select class="form-control" name="supplier_status">
                              <option value="0"></option>
-                             <?php $response_data = $helper_model->get_list_status("master-code");
+                             <?php $response_data = $helper_model->getStatus("general");
                                 foreach ($response_data as $obj) { ?>
-                                 <option value="<?php echo $obj['status_id']; ?>"
-                                     <?php if ($obj["status_id"] == $response["status_id"]) echo "selected"; ?>><?php echo $obj['status_name']; ?></option>
+                                 <option value="<?php echo $obj['value']; ?>"
+                                     <?php if ($obj["value"] == $response["status"]) echo "selected"; ?>><?php echo $obj['name']; ?></option>
                              <?php } ?>
                          </select>
                      </td>

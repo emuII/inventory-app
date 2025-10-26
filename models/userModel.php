@@ -1,5 +1,5 @@
 <?php
-class models_user
+class userModel
 {
     protected $db;
     public function __construct($db)
@@ -8,7 +8,7 @@ class models_user
     }
     public function get_user_by_id($id)
     {
-        $sql = "select * from m_user where id_user= ?";
+        $sql = "select * from m_user where id= ?";
         $row = $this->db->prepare($sql);
         $row->execute(array($id));
         $response = $row->fetch();

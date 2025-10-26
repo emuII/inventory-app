@@ -1,6 +1,6 @@
 <!--sidebar start-->
 <?php
-$id = $_SESSION['active_login']['id_user'];
+$id = $_SESSION['active_login']['id'];
 $profile = $user_model->get_user_by_id($id);
 ?>
 <!-- Sidebar -->
@@ -35,21 +35,33 @@ $profile = $user_model->get_user_by_id($id);
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="index.php?route=supplier">Supplier</a>
-                <a class="collapse-item" href="index.php?route=category">Category</a>
-                <a class="collapse-item" href="index.php?route=brand">Brand</a>
+                <a class="collapse-item" href="index.php?route=items">Items</a>
             </div>
         </div>
     </li>
     <li class="nav-item active">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
-            aria-controls="collapseThree">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
+            aria-controls="collapseFour">
             <i class="fas fa-fw fa-database"></i>
             <span>Transaction</span>
         </a>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="index.php?route=productIn">Purchase</a>
-                <a class="collapse-item" href="index.php?route=productOut">Sales</a>
+                <a class="collapse-item" href="index.php?route=purchase">Purchase Request</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true"
+            aria-controls="collapseFive">
+            <i class="fas fa-fw fa-database"></i>
+            <span>Orders</span>
+        </a>
+        <div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="index.php?route=request">My Request</a>
+                <a class="collapse-item" href="index.php?route=request">My Approval</a>
             </div>
         </div>
     </li>

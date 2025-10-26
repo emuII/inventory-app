@@ -34,10 +34,9 @@
     <script src="public/sb-admin/js/sb-admin-2.min.js"></script>
     <script src="public/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="public/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
     <script type="text/javascript">
-        $(function() {
-            $(".dt-tbl").DataTable();
-        });
+
     </script>
     <script type="application/javascript">
         //angka 500 dibawah ini artinya pesan akan muncul dalam 0,5 detik setelah document ready
@@ -47,6 +46,11 @@
             }, 500);
 
             $('.select2').select2();
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true
+            });
         });
         //angka 3000 dibawah ini artinya pesan akan hilang dalam 3 detik setelah muncul
         setTimeout(function() {

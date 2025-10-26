@@ -17,7 +17,6 @@ function numFmt($style, $code = '#,##0')
 $wb = new Spreadsheet();
 $ws = $wb->getActiveSheet();
 $ws->setTitle('Nota Service');
-$date = new date();
 // Lebar kolom biar mirip
 $ws->getColumnDimension('A')->setWidth(6);   // No
 $ws->getColumnDimension('B')->setWidth(16);  // Product Code

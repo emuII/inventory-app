@@ -28,9 +28,9 @@
                                 <td>
                                     <select class="form-control select2" name="filter_status">
                                         <option value="0"></option>
-                                        <?php $response_data = $helper_model->get_list_status("master-code");
+                                        <?php $response_data = $helper_model->getStatus("general");
                                         foreach ($response_data as $obj) {     ?>
-                                            <option value="<?php echo $obj['status_id']; ?>"><?php echo $obj['status_name']; ?></option>
+                                            <option value="<?php echo $obj['value']; ?>"><?php echo $obj['name']; ?></option>
                                         <?php } ?>
                                     </select>
                                 </td>
@@ -83,7 +83,6 @@
 
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
-                <!-- Modal content-->
                 <div class="modal-content" style=" border-radius:0px;">
                     <div class="modal-header">
                         <h5 class="modal-title">Add Supplier</h5>
@@ -118,9 +117,9 @@
                                     <td>
                                         <select class="form-control select2" name="supplier_status">
                                             <option value="0"></option>
-                                            <?php $response_data = $helper_model->get_list_status("master-code");
+                                            <?php $response_data = $helper_model->getStatus("general");
                                             foreach ($response_data as $obj) {     ?>
-                                                <option value="<?php echo $obj['status_id']; ?>"><?php echo $obj['status_name']; ?></option>
+                                                <option value="<?php echo $obj['value']; ?>"><?php echo $obj['name']; ?></option>
                                             <?php } ?>
                                         </select>
                                     </td>
@@ -141,7 +140,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
 
         <script>
@@ -162,6 +160,7 @@
                         alert("Error loading data");
                     }
                 });
+
             }
 
             function celarSupplier() {
