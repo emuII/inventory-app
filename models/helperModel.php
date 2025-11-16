@@ -32,7 +32,7 @@ class helperModel
 
     public function getStatus($code)
     {
-        $sql = "SELECT * FROM m_status where code =?";
+        $sql = "SELECT ms.Id, ms.value, ms.code, ms.name, ms.desc FROM m_status ms where ms.code=?";
         $row = $this->db->prepare($sql);
         $row->execute(array($code));
         $response = $row->fetchAll();

@@ -51,6 +51,8 @@
                 autoclose: true,
                 todayHighlight: true
             });
+
+
         });
         //angka 3000 dibawah ini artinya pesan akan hilang dalam 3 detik setelah muncul
         setTimeout(function() {

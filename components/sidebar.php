@@ -60,8 +60,8 @@ $profile = $user_model->get_user_by_id($id);
         </a>
         <div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="index.php?route=request">My Request</a>
-                <a class="collapse-item" href="index.php?route=request">My Approval</a>
+                <a class="collapse-item" href="index.php?route=myrequest">My Request</a>
+                <a class="collapse-item" href="index.php?route=myapproval">My Approval</a>
             </div>
         </div>
     </li>

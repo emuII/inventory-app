@@ -12,7 +12,7 @@
     <title>Inventory Management</title>
 
     <!-- Custom fonts for this template-->
-    <link href="public/sb-admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="public/fontawesome/fontawesome-free/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         rel="stylesheet">
@@ -32,13 +32,11 @@
     <script src="public/sb-admin/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
-
+    <link rel="stylesheet" href="public/date-picker/dist/css/bootstrap-datepicker.min.css" />
 </head>
 
 <body id="page-top">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="public/date-picker/dist/js/bootstrap-datepicker.min.js"></script>
 
     <!-- Page Wrapper -->
     <div id="wrapper">

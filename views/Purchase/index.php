@@ -1,4 +1,4 @@
-<form action="import.php" method="post" enctype="multipart/form-data">
+<form id="prForm" method="post" onsubmit="return false;">
     <div class="box-body" id="itemContainer">
         <div class="card card-body item-row">
             <div class="table-responsive">
@@ -7,7 +7,7 @@
                         <tr>
                             <td>Items</td>
                             <td>
-                                <select class="form-control select2" name="select_item[0]" required>
+                                <select class="form-control select2" name="select_item" required>
                                     <option value="">-- Choose Item --</option>
                                     <?php
                                     $response_data = $item_model->itemList();
@@ -24,36 +24,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Supplier</td>
-                            <td>
-                                <select class="form-control select2" name="supplier_code[0]" required>
-                                    <option value="">-- Choose Supplier --</option>
-                                    <?php
-                                    $response_data = $supplier_model->get_supplier_active();
-                                    if (!empty($response_data)) {
-                                        foreach ($response_data as $obj) { ?>
-                                            <option value="<?= htmlspecialchars($obj['supplier_code']) ?>">
-                                                <?= htmlspecialchars($obj['supplier_code'] . ' - ' . $obj['supplier_name']) ?>
-                                            </option>
-                                        <?php }
-                                    } else { ?>
-                                        <option value="">Tidak ada data supplier</option>
-                                    <?php } ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Qty</td>
-                            <td><input type="text" class="form-control" name="qty[]" required></td>
-                        </tr>
-                        <tr>
-                            <td>Sale Price</td>
-                            <td><input type="text" class="form-control" name="price[]" required></td>
+                            <td><input type="text" class="form-control" name="qty" required></td>
                         </tr>
                         <tr>
                             <td>Notes</td>
                             <td>
-                                <textarea class="form-control" name="notes[]" style="resize: none; height: 100px;"></textarea>
+                                <textarea class="form-control" name="notes" style="resize: none; height: 100px;"></textarea>
                             </td>
                         </tr>
                     </tbody>
@@ -79,19 +56,38 @@
             <table class="table table-borderles">
                 <tbody>
                     <tr>
+                        <td>Supplier</td>
+                        <td>
+                            <select class="form-control select2" name="sel_supplier" id="sel_supplier" required>
+                                <option value="">-- Choose Supplier --</option>
+                                <?php
+                                $response_data = $supplier_model->get_supplier_active();
+                                if (!empty($response_data)) {
+                                    foreach ($response_data as $obj) { ?>
+                                        <option value="<?= htmlspecialchars($obj['supplierId']) ?>">
+                                            <?= htmlspecialchars($obj['supplier_code'] . ' - ' . $obj['supplier_name']) ?>
+                                        </option>
+                                    <?php }
+                                } else { ?>
+                                    <option value="">Tidak ada data supplier</option>
+                                <?php } ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Request Date</td>
                         <td>
-                            <input class="form-control datepicker" type="text" name="request_date[0]" autocomplete="off" required>
+                            <input class="form-control datepicker" type="text" name="request_date" id="request_date" autocomplete="off" required>
                         </td>
                     </tr>
                     <tr>
                         <td>Address</td>
-                        <td><textarea class="form-control" name="address" style="height: 100px; resize: none;"></textarea></td>
+                        <td><textarea class="form-control" name="address" id="address" style="height: 100px; resize: none;"></textarea></td>
                     </tr>
                     <tr>
                         <td>Approver</td>
                         <td>
-                            <select class="form-control select2" name="sel_approver" required>
+                            <select class="form-control select2" name="sel_approver" id="sel_approver" required>
                                 <option value="">-- Choose Approver --</option>
                                 <?php
                                 $response_data = $approval_member->GetApprovalMember();
@@ -110,7 +106,7 @@
                     <tr>
                         <td>Remarks Approver</td>
                         <td>
-                            <textarea class="form-control" name="remarks_approver" style="resize: none; height: 100px;"></textarea>
+                            <textarea class="form-control" name="remarks_approver" id="remarks_approver" style="resize: none; height: 100px;"></textarea>
                         </td>
                     </tr>
                 </tbody>
@@ -126,4 +122,4 @@
         </div>
     </div>
 </form>
-<script src="javascript/purchase.js"></script>
+<script src="script/purchase.js"></script>

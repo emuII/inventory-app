@@ -1,6 +1,6 @@
  <?php
     $supplier_code = $_GET['supplier_code'];
-    $response = $supplier_model->get_supplier_by_code($supplier_code);
+    $response = $supplier_model->getSupplierbyCode($supplier_code);
     ?>
 
  <a href="index.php?route=supplier" class="btn btn-primary mb-3"><i class="fa fa-angle-left"></i> Back </a>

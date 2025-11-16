@@ -28,7 +28,8 @@
                             <th>Type</th>
                             <th>Category</th>
                             <th>Qty</th>
-                            <th>Pice</th>
+                            <th>Buy Pice</th>
+                            <th>Sales Pice</th>
                         </tr>
                     </thead>
                     <tbody id="tableItem">
@@ -83,7 +84,7 @@
                     data: $('#searchForm').serialize(),
                     success: function(response) {
                         $('#tableItem').html(response);
-                        $('#tbItems').DataTable(); // inisialisasi setelah data masuk
+                        $('#tbItems').DataTable();
                     },
                     error: function(err) {
                         alert("Error loading data");

@@ -160,7 +160,6 @@
                         alert("Error loading data");
                     }
                 });
-
             }
 
             function celarSupplier() {

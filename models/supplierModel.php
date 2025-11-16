@@ -14,7 +14,7 @@ class supplierModel
         $filter_status  = htmlentities($_POST['filter_status'] ?? '');
 
         $sql = "SELECT mst.name as status_name ,mst.desc as status_desc, msp.* FROM m_supplier msp
-            JOIN m_status mst ON msp.status = mst.value
+            JOIN m_status mst ON msp.status = mst.value and mst.code ='general'
             WHERE mst.value != 3";
 
         $params = [];
@@ -43,7 +43,7 @@ class supplierModel
         return $row->fetchAll();
     }
 
-    public function get_supplier_by_code($supplier_code)
+    public function getSupplierbyCode($supplier_code)
     {
         $sql = "SELECT mst.name as status_name, mst.desc as status_desc, mst.Id as status_id, msp.* FROM m_supplier msp
                 JOIN m_status mst on msp.status = mst.value
@@ -56,7 +56,7 @@ class supplierModel
 
     public function get_supplier_active()
     {
-        $sql = "SELECT msp.Id, msp.supplier_code, msp.supplier_name FROM m_supplier msp
+        $sql = "SELECT msp.Id supplierId, msp.supplier_code, msp.supplier_name FROM m_supplier msp
                 JOIN m_status mst on msp.status = mst.id
                 WHERE msp.status NOT IN (1, 3)";
         $row = $this->db->prepare($sql);
@@ -69,7 +69,7 @@ class supplierModel
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        $sql = "SELECT msp.Id, msp.supplier_code, msp.supplier_name
+        $sql = "SELECT msp.Id supplierId, msp.supplier_code, msp.supplier_name
             FROM m_supplier msp
             JOIN m_status mst ON msp.status = mst.id
             WHERE msp.status NOT IN (1, 3)";
@@ -79,10 +79,9 @@ class supplierModel
             $stmt->execute();
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // format hasil sesuai kebutuhan Select2
             $results = array_map(function ($r) {
                 return [
-                    'id'   => $r['supplier_code'],
+                    'id'   => $r['supplierId'],
                     'text' => $r['supplier_code'] . ' - ' . $r['supplier_name']
                 ];
             }, $rows);

@@ -11,3 +11,23 @@
   color: white !important;
   border-radius: 6px !important;
 }
+
+.Pending {
+  background: #ecbf4a !important;
+  padding: 0px 10px 2px 10px !important;
+  color: white !important;
+  border-radius: 6px !important;
+}
+.Proccess {
+  background: #ff990b !important;
+  padding: 0px 10px 2px 10px !important;
+  color: white !important;
+  border-radius: 6px !important;
+}
+
+.Approve {
+  background: #4ce01f !important;
+  padding: 0px 10px 2px 10px !important;
+  color: white !important;
+  border-radius: 6px !important;
+}

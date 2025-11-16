@@ -23,7 +23,8 @@ class itemController
                 <td>{$row['type']}</td>
                 <td>{$row['category']}</td>
                 <td>{$row['qty']}</td>
-                <td>{$row['price']}</td>
+                <td>{$row['buy_price']}</td>
+                <td>{$row['sales_price']}</td>
                 </tr>";
         }
     }

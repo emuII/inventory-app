@@ -9,7 +9,7 @@ class itemModel
 
     public function itemList()
     {
-        $query = "SELECT itm.Id, itm.item_name, itm.type, itm.category, itm.qty, itm.price FROM m_item itm";
+        $query = "SELECT itm.Id, itm.item_name, itm.type, itm.category, itm.qty, itm.buy_price, itm.sales_price FROM m_item itm";
         $query .= " ORDER BY itm.id DESC";
         $row = $this->db->prepare($query);
         $row->execute();
@@ -21,7 +21,7 @@ class itemModel
         header('Content-Type: application/json; charset=utf-8');
 
         $sql = "SELECT itm.Id, itm.item_name, itm.type, itm.category, itm.qty,
-                 itm.price FROM m_item itm";
+                 itm.buy_price, itm.sales_price FROM m_item itm";
 
         try {
             $stmt = $this->db->prepare($sql);
