@@ -1,4 +1,5 @@
 ﻿# inventory-app
+
 # Inventory App (PHP Native)
 
 **A lightweight inventory management system built in pure PHP MVC with MD5 auth and Bootstrap responsiveness.**
@@ -10,13 +11,13 @@
 
 ## Table of Contents
 
-- [Overview](#overview)  
-- [Features](#features)  
-- [Tech Stack](#tech-stack)  
-- [Folder Structure](#folder-structure)  
-- [Setup & Installation](#setup--installation)  
-- [Usage](#usage)  
-- [Contributing](#contributing)  
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Folder Structure](#folder-structure)
+- [Setup & Installation](#setup--installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -29,19 +30,19 @@ Inventory App adalah sistem sederhana untuk mengelola barang masuk dan keluar, d
 
 ## Features
 
-- ✅ CRUD produk dan inventaris  
-- 🔐 Autentikasi **MD5**  
-- 🚀 Routing modular & extensible  
-- 📱 Tampilan responsif dengan **Bootstrap**  
-- 🧩 Praktis dan ringan tanpa framework besar  
+- ✅ CRUD produk dan inventaris
+- 🔐 Autentikasi **MD5**
+- 🚀 Routing modular & extensible
+- 📱 Tampilan responsif dengan **Bootstrap**
+- 🧩 Praktis dan ringan tanpa framework besar
 
 ---
 
 ## Tech Stack
 
-- PHP (native)  
-- MySQL / MariaDB  
-- Bootstrap 5  
+- PHP (native)
+- MySQL / MariaDB
+- Bootstrap 5
 - MD5
 - Apache (via XAMPP/LAMP)
 
@@ -49,5 +50,6 @@ Inventory App adalah sistem sederhana untuk mengelola barang masuk dan keluar, d
 
 ## Folder Structure
 
+composer require dompdf/dompdf
 
 #PHPNative #InventoryApp #InventoryManagement #PHPMVC #MD5 #Bootstrap #XAMPP #OpenSource #MVC #OOP

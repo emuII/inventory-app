@@ -39,13 +39,16 @@ class purchaseRequestModel
                 PR.id PrId,
                 PR.pr_code requestNumber,
                 MS.supplier_name supplierName,
+                MS.supplier_address supplierAddress,
                 PR.request_date requestDate,
                 AR.approver_name approverName,
                 AR.remarks,
-                PR.store_address storeAddress
+                PR.store_address storeAddress,
+                MU.username requesterName
             FROM purchase_request PR 
             JOIN m_supplier MS ON PR.supplier_id = MS.Id
             JOIN approval_request AR ON PR.id = AR.pr_id
+            JOIN m_user MU ON PR.requester_id = MU.id
             WHERE PR.pr_code = :requestNumber;";
 
         $params = [':requestNumber' => $requestNumber];
@@ -58,11 +61,14 @@ class purchaseRequestModel
     public function requestDetails(string $requestNumber)
     {
         $sql = "SELECT PR.id PrId,
+                    PR.pr_code requestNumber,
                     PRD.id PrdId,
                     PRD.item_id ItemId,
                     PRD.qty,
                     PRD.notes Notes,
                     ITM.item_name itemName,
+                    ITM.type,
+                    ITM.category,
                     PR.status statusId
                 FROM purchase_request PR
                     JOIN purchase_request_detail PRD

@@ -41,7 +41,8 @@ class approvalController
             if ($row['statusId'] != '2') {
                 echo "<a href='index.php?route=purchaseRequest/requestDetail&{$qs}' class='btn btn-sm btn-primary'>Edit</a>";
             }
-            echo "<a class='btn btn-success'><i class='fa-solid fa-download'></i></a>";
+            $poUrl = base_url('export/pdf/generatePo.php?requestNumber=' . $row['requestNumber']);
+            echo "<a href='" . $poUrl . "' class='btn btn-success'><i class='fa-solid fa-download'></i></a>";
 
             echo "</td></tr>";
         }

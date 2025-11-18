@@ -3,6 +3,7 @@ session_start();
 
 if (!empty($_SESSION['active_login'])) {
     require '../config/database.php';
+    require '../config/env.php';
 
     if (!empty($_GET['add_supplier'])) {
         $supplier_code = htmlentities($_POST['supplier_code']);

@@ -1,0 +1,21 @@
+# Ignore environment files
+.env
+
+# Composer
+/vendor/
+/composer.lock
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Cache / temp
+cache/
+tmp/

@@ -3,6 +3,7 @@
 session_start();
 if (!empty($_SESSION['active_login'])) {
     require 'config/database.php';
+    require 'config/env.php';
 
     $supplier_model   = new supplierModel($config);
     $user_model       = new userModel($config);
@@ -10,6 +11,7 @@ if (!empty($_SESSION['active_login'])) {
     $item_model       = new itemModel($config);
     $approval_member  = new approvalMemberModel($config);
     $request          = new purchaseRequestModel($config);
+    $store          = new storeModel($config);
 
     include 'components/header.php';
     include 'components/sidebar.php';
@@ -26,7 +28,7 @@ if (!empty($_SESSION['active_login'])) {
             if (class_exists($class)) {
                 $ctrl = new $class($config);
                 if (method_exists($ctrl, $action)) {
-                    $ctrl->$action(); // TIDAK include footer dan tidak exit di sini
+                    $ctrl->$action();
                 }
             }
         } else {

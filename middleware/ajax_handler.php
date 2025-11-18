@@ -1,5 +1,6 @@
 <?php
 require_once '../config/database.php';
+require_once '../config/env.php';
 
 $controllerName = $_GET['controller'] ?? '';
 $action         = $_GET['action'] ?? '';
