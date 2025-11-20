@@ -46,7 +46,6 @@ class approvalModel
 
     public function submit(int $prId, int $approvalStatus)
     {
-        // Update approval_request
         $sql_approval = "UPDATE approval_request 
                      SET status = :status_id
                      WHERE pr_id = :pr_id";
@@ -57,7 +56,6 @@ class approvalModel
             ':status_id' => $approvalStatus
         ]);
 
-        // Update purchase_request
         $sql_req = "UPDATE purchase_request 
                 SET status = :status_id
                 WHERE id = :pr_id";
@@ -67,7 +65,6 @@ class approvalModel
             ':pr_id'     => $prId,
             ':status_id' => $approvalStatus
         ]);
-
         return $response;
     }
 }

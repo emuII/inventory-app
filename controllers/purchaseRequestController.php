@@ -41,7 +41,7 @@ class purchaseRequestController
         }
         $dataHeader = $this->model->requestHeader($requestNumber);
         $dataDetail = $this->model->requestDetails($requestNumber);
-        $helper = $this->helper->getStatus("approval");
+        $helper = $this->helper->getStatus("transaction");
         include 'views/myapproval/approvalDetails.php';
     }
 

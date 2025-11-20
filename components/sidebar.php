@@ -34,7 +34,7 @@ $profile = $user_model->get_user_by_id($id);
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="index.php?route=supplier">Supplier</a>
+                <a class="collapse-item" href="index.php?route=suppliers">Supplier</a>
                 <a class="collapse-item" href="index.php?route=items">Items</a>
             </div>
         </div>
@@ -65,6 +65,19 @@ $profile = $user_model->get_user_by_id($id);
             </div>
         </div>
     </li>
+
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true"
+            aria-controls="collapseSix">
+            <i class="fas fa-fw fa-database"></i>
+            <span>Inventory</span>
+        </a>
+        <div id="collapseSix" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="index.php?route=warehouse_">Warehouse</a>
+            </div>
+        </div>
+    </li>
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
@@ -90,7 +103,7 @@ $profile = $user_model->get_user_by_id($id);
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <img class="img-profile rounded-circle"
-                            src="public/asset/seru.PNG <?php echo $profile['username']; ?>">
+                            src="public/asset/img/ui-sam.jpg" <?php echo $profile['username']; ?>>
                         <span
                             class="mr-2 d-none d-lg-inline text-gray-600 small ml-2"><?php echo $profile['username']; ?></span>
                         <i class="fas fa-angle-down"></i>

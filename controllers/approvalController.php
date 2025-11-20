@@ -2,9 +2,11 @@
 class approvalController
 {
     protected $model;
+    protected $warehouse;
     public function __construct($db)
     {
         $this->model = new approvalModel($db);
+        $this->warehouse = new wareHouseModel($db);
     }
 
     public function approvalList()
@@ -31,19 +33,20 @@ class approvalController
             $qs = http_build_query(['requestNumber' => $row['requestNumber']]);
 
             echo "<tr>
-        <td style='width:5%;'>" . ($index + 1) . "</td>
-        <td>{$reqNum}</td>
-        <td>{$reqDate}</td>
-        <td>{$username}</td>
-        <td><label class='status {$status}'>{$status}</label></td>
-        <td>{$supplier}</td>
-        <td>";
+            <td style='width:5%;'>" . ($index + 1) . "</td>
+            <td>{$reqNum}</td>
+            <td>{$reqDate}</td>
+            <td>{$username}</td>
+            <td><label class='status {$status}'>{$status}</label></td>
+            <td>{$supplier}</td>
+            <td>";
             if ($row['statusId'] != '2') {
-                echo "<a href='index.php?route=purchaseRequest/requestDetail&{$qs}' class='btn btn-sm btn-primary'>Edit</a>";
+                echo "<a href='index.php?route=purchaseRequest/requestDetail&{$qs}' class='btn btn-sm btn-primary'><i class='fa fa-pencil'></i></a>";
             }
-            $poUrl = base_url('export/pdf/generatePo.php?requestNumber=' . $row['requestNumber']);
-            echo "<a href='" . $poUrl . "' class='btn btn-success'><i class='fa-solid fa-download'></i></a>";
-
+            if ($row['statusId'] == '2') {
+                $poUrl = base_url('export/pdf/generatePo.php?requestNumber=' . $row['requestNumber']);
+                echo "<a href='" . $poUrl . "' class='btn btn-sm btn-success'><i class='fa-solid fa-download'></i></a>";
+            }
             echo "</td></tr>";
         }
     }
@@ -59,6 +62,7 @@ class approvalController
 
         try {
             $response = $this->model->submit($payload['prId'], $payload['approvalStatus']);
+            $warehouse = $this->warehouse->draftWarehouse($payload['prId']);
             echo json_encode(['success' => true, 'message' => 'Created', 'response' => $response]);
         } catch (Throwable $e) {
             http_response_code(500);
