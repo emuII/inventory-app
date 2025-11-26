@@ -11,6 +11,12 @@ class purchaseRequestModel
 
     public function requestList()
     {
+        $filter_number = htmlentities($_POST['filter_number'] ?? '');
+        $dateFrom        = htmlentities($_POST['dateFrom'] ?? '');
+        $dateTo        = htmlentities($_POST['dateTo'] ?? '');
+        $transactionStatus = htmlentities($_POST['transaction_status'] ?? '');
+        $supplierName   = htmlentities($_POST['supplier_name'] ?? '');
+
         $sql = "SELECT 
                     PR.id,
                     PR.pr_code requestNumber,
@@ -24,10 +30,33 @@ class purchaseRequestModel
                 FROM purchase_request PR
                 JOIN m_status MST ON PR.status = MST.value AND MST.code = 'transaction'
                 JOIN m_user MU ON PR.requester_id = MU.id
-                JOIN m_supplier MS ON PR.supplier_id = MS.Id;";
+                JOIN m_supplier MS ON PR.supplier_id = MS.Id
+                WHERE 1 = 1 ";
+
+
+        $params = [];
+        if (!empty($filter_number)) {
+            $sql .= " AND PR.pr_code LIKE ?";
+            $params[] = "%$filter_number%";
+        }
+
+        if (!empty($dateFrom) && !empty($dateTo)) {
+            $sql .= " AND DATE(PR.request_date) BETWEEN ? AND ?";
+            $params[] = $dateFrom;   // format: 2025-11-20
+            $params[] = $dateTo;     // format: 2025-11-25
+        }
+        if (!empty($transactionStatus) && $transactionStatus != '0') {
+            $sql .= " AND PR.status = ?";
+            $params[] = $transactionStatus;
+        }
+        if (!empty($supplierName) && $supplierName != '0') {
+            $sql .= " AND PR.supplier_id = ?";
+            $params[] = $supplierName;
+        }
 
         $sql .= " ORDER BY PR.id DESC";
-        $params = [];
+
+
         $row = $this->pdo->prepare($sql);
         $row->execute($params);
         return $row->fetchAll();
@@ -44,11 +73,13 @@ class purchaseRequestModel
                 AR.approver_name approverName,
                 AR.remarks,
                 PR.store_address storeAddress,
-                MU.username requesterName
+                MU.username requesterName,
+                MST.name statusName
             FROM purchase_request PR 
             JOIN m_supplier MS ON PR.supplier_id = MS.Id
             JOIN approval_request AR ON PR.id = AR.pr_id
             JOIN m_user MU ON PR.requester_id = MU.id
+            JOIN m_status MST ON PR.status = MST.value AND MST.code = 'transaction'
             WHERE PR.pr_code = :requestNumber;";
 
         $params = [':requestNumber' => $requestNumber];
@@ -95,7 +126,7 @@ class purchaseRequestModel
         $statusRequest = $payload['statusRequest'];
         $approverName = $payload['approverName'];
 
-        $prCode = 'PR' . '-' . date('YmdHis');
+        $prCode = 'PR-' . date('ymds');
 
         $this->pdo->beginTransaction();
         try {
@@ -151,5 +182,17 @@ class purchaseRequestModel
             $this->pdo->rollBack();
             throw $e;
         }
+    }
+
+    public function cancelRequest(string $requestNumber): bool
+    {
+        $sql = "UPDATE purchase_request
+                SET status = 4
+                WHERE pr_code = :requestNumber";
+
+        $params = [':requestNumber' => $requestNumber];
+
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($params);
     }
 }

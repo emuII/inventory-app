@@ -51,9 +51,23 @@
                 autoclose: true,
                 todayHighlight: true
             });
-
-
         });
+
+        function formatMoney(input) {
+            let value = input.value;
+            value = value.replace(/[^0-9]/g, '');
+            if (value === '') {
+                input.value = '';
+                return;
+            }
+            let formatted = new Intl.NumberFormat('id-ID').format(value);
+            input.value = formatted;
+        }
+
+        function unformatMoneyValue(value) {
+            return parseInt(value.replace(/\./g, '')) || 0;
+        }
+
         //angka 3000 dibawah ini artinya pesan akan hilang dalam 3 detik setelah muncul
         setTimeout(function() {
             $(".alert-danger").fadeOut('slow');

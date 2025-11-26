@@ -1,123 +1,179 @@
-<h3>My Request</h3>
-<br />
+ <div class="container-fluid py-4">
+     <div class="page-header">
+         <div class="d-flex justify-content-between align-items-center">
+             <div>
+                 <h1 class="h3 mb-0">My Request</h1>
+                 <p class="mb-0 opacity-75">Manage your request information and details</p>
+             </div>
+         </div>
+     </div>
+     <div class="search-section">
+         <h5 class="mb-3">Search & Filter</h5>
+         <form id="searchForm">
+             <div class="filter-row">
+                 <div class="filter-group">
+                     <label class="filter-label">Request Number</label>
+                     <input type="text" class="form-control form-control-modern" name="filter_number" placeholder="Enter request number">
+                 </div>
+                 <div class="filter-group">
+                     <div class="date-range-group">
+                         <div class="date-input-group">
+                             <label class="form-label filter-label">From Date</label>
+                             <input type="date" class="form-control form-control-modern" name="dateFrom" id="filterDateFrom">
+                         </div>
+                         <div class="date-separator">to</div>
+                         <div class="date-input-group">
+                             <label class="form-label filter-label">To Date</label>
+                             <input type="date" class="form-control form-control-modern" name="dateTo" id="filterDateTo">
+                         </div>
+                     </div>
+                 </div>
+                 <div class="filter-group">
+                     <label class="filter-label">Supplier</label>
+                     <select class="form-control form-control-modern select2" name="supplier_name">
+                         <option value="0">All Supplier</option>
+                         <?php
+                            $response_data = $supplier_model->get_supplier_active();
+                            if (!empty($response_data)) {
+                                foreach ($response_data as $obj) { ?>
+                                 <option value="<?= htmlspecialchars($obj['supplierId']) ?>">
+                                     <?= htmlspecialchars($obj['supplier_code'] . ' - ' . $obj['supplier_name']) ?>
+                                 </option>
+                             <?php }
+                            } else { ?>
+                             <option value="">Tidak ada data supplier</option>
+                         <?php } ?>
+                     </select>
+                 </div>
+             </div>
+             <div class="filter-row">
+                 <div class="filter-group" style="width: 27em;">
+                     <label class="filter-label">Status</label>
+                     <select class="form-control form-control-modern select2" name="transaction_status">
+                         <option value="0">All Statuses</option>
+                         <?php $response_data = $helper_model->getStatus("transaction");
+                            foreach ($response_data as $obj) {     ?>
+                             <option value="<?php echo $obj['value']; ?>"><?php echo $obj['name']; ?></option>
+                         <?php } ?>
+                     </select>
+                 </div>
+             </div>
+             <div class="d-flex gap-2">
+                 <button class="btn btn-primary-modern btn-modern" type="button" onclick="searchRequest();">
+                     <i class="fas fa-search me-2"></i> Search
+                 </button> &nbsp;
+                 <button class="btn btn-outline-secondary btn-modern" type="button" onclick="clearRequest();">
+                     <i class="fas fa-trash me-2"></i> Clear Filters
+                 </button>
+             </div>
+         </form>
+     </div>
+     <br />
+     <?php if (isset($_GET['success'])) { ?>
+         <div class="alert alert-success">
+             <p>Success !</p>
+         </div>
+     <?php } ?>
+     <?php if (isset($_GET['remove'])) { ?>
+         <div class="alert alert-danger">
+             <p>Failed !</p>
+         </div>
+     <?php } ?>
+     <div class="search-section">
+         <div class="table-responsive">
+             <table class="table dt-tbl table-modern" id="tbRequest">
+                 <thead>
+                     <tr>
+                         <th>No.</th>
+                         <th>Request Number</th>
+                         <th>Request Date</th>
+                         <th>Requestor Name</th>
+                         <th>Status</th>
+                         <th>Supplier Name</th>
+                         <th>Action</th>
+                     </tr>
+                 </thead>
+                 <tbody id="requestTable" align="center;"></tbody>
+             </table>
+         </div>
+     </div>
+ </div>
+ <script>
+     $(document).ready(function() {
+         searchRequest();
+     });
 
-<div class="card card-body">
-    <div class="table-responsive">
+     function searchRequest() {
+         $.ajax({
+             type: 'POST',
+             url: 'middleware/ajax_handler.php?controller=purchaseRequest&action=requestList',
+             data: $('#searchForm').serialize(),
+             success: function(response) {
+                 if ($.fn.DataTable.isDataTable('#tbRequest')) {
+                     $('#tbRequest').DataTable().destroy();
+                 }
+                 $('#requestTable').html(response);
+                 $('#tbRequest').DataTable();
+             },
+             error: function(err) {
+                 alert("Error loading data");
+             }
+         });
+     }
 
-    </div>
-</div>
+     function clearRequest() {
+         $('#searchForm')[0].reset();
+         $('#searchForm select.select2').val('').trigger('change');
+         $('#searchForm select.select2').val('0').trigger('change');
+         searchRequest();
+     }
 
-<br />
-<?php if (isset($_GET['success'])) { ?>
-    <div class="alert alert-success">
-        <p>Success !</p>
-    </div>
-<?php } ?>
-<?php if (isset($_GET['remove'])) { ?>
-    <div class="alert alert-danger">
-        <p>Failed !</p>
-    </div>
-<?php } ?>
-<div class="card card-body">
-    <div class="table-responsive">
-        <table class="table dt-tbl table-bordered table-striped table-sm" id="tbRequest">
-            <thead>
-                <tr style="background:#DFF0D8;color:#333;">
-                    <th>No.</th>
-                    <th>Request Number</th>
-                    <th>Request Date</th>
-                    <th>Requestor Name</th>
-                    <th>Status</th>
-                    <th>Supplier Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="requestTable">
+     function cancelRequest(requestNumber) {
 
-            </tbody>
-        </table>
-    </div>
-</div>
+         Swal.fire({
+             title: 'Are you sure?',
+             text: "This request will be cancelled!",
+             icon: 'warning',
+             showCancelButton: true,
+             confirmButtonColor: '#d33',
+             cancelButtonColor: '#6c757d',
+             confirmButtonText: 'Yes, cancel it!',
+             cancelButtonText: 'No'
+         }).then((result) => {
 
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content" style=" border-radius:0px;">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Supplier</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <form action="service/supplierService.php?add_supplier=add_supplier" method="POST">
-                <div class="modal-body">
-                    <table class="table table-borderless">
-                        <?php
-                        $format = $helper_model->generate_code("SPL");
-                        ?>
-                        <tr>
-                            <td>Supplier Code</td>
-                            <td>
-                                <input type="text" readonly="readonly" required value="<?php echo $format; ?>" class="form-control" name="supplier_code">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Supplier Name</td>
-                            <td>
-                                <input type="text" placeholder="Supplier Name" required class="form-control" name="supplier_name">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Supplier Address</td>
-                            <td>
-                                <textarea placeholder="Supplier Address" style="resize: none;" class="form-control" name="supplier_address"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Supplier Status</td>
-                            <td>
-                                <select class="form-control select2" name="supplier_status">
-                                    <option value="0"></option>
-                                    <?php $response_data = $helper_model->getStatus("general");
-                                    foreach ($response_data as $obj) {     ?>
-                                        <option value="<?php echo $obj['value']; ?>"><?php echo $obj['name']; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Supplier Contact</td>
-                            <td>
-                                <input type="text" placeholder="Supplier Contact" required class="form-control" name="supplier_contact">
-                            </td>
-                        </tr>
+             if (result.isConfirmed) {
 
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                 $.ajax({
+                     type: 'POST',
+                     url: 'middleware/ajax_handler.php?controller=purchaseRequest&action=cancelRequest',
+                     data: {
+                         requestNumber: requestNumber
+                     },
+                     success: function(response) {
 
-<script>
-    $(document).ready(function() {
-        searchRequest();
-    });
+                         Swal.fire({
+                             title: "Success!",
+                             text: "Request cancelled successfully.",
+                             icon: "success",
+                             timer: 1500,
+                             showConfirmButton: false
+                         });
 
-    function searchRequest() {
-        $.ajax({
-            type: 'POST',
-            url: 'middleware/ajax_handler.php?controller=purchaseRequest&action=requestList',
-            data: $('#searchForm').serialize(),
-            success: function(response) {
-                $('#requestTable').html(response);
-                $('#tbRequest').DataTable();
-            },
-            error: function(err) {
-                alert("Error loading data");
-            }
-        });
+                         searchRequest();
+                     },
+                     error: function() {
 
-    }
-</script>
+                         Swal.fire({
+                             title: "Failed!",
+                             text: "Error cancelling request.",
+                             icon: "error"
+                         });
+
+                     }
+                 });
+
+             }
+         });
+
+     }
+ </script>

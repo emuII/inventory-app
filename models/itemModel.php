@@ -9,7 +9,7 @@ class itemModel
 
     public function itemList()
     {
-        $query = "SELECT itm.Id, itm.item_name, itm.type, itm.category, itm.qty, itm.buy_price, itm.sales_price FROM m_item itm";
+        $query = "SELECT itm.Id, itm.item_name, itm.type, itm.category, itm.qty,  FORMAT(itm.buy_price, 0, 'id_ID') AS buy_price,  FORMAT(itm.sales_price, 0, 'id_ID') AS sales_price FROM m_item itm";
         $query .= " ORDER BY itm.id DESC";
         $row = $this->db->prepare($query);
         $row->execute();

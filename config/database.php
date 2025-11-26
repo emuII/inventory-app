@@ -1,14 +1,10 @@
 <?php
 date_default_timezone_set("Asia/Jakarta");
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 $host   = 'localhost';
 $user   = 'root';
 $pass   = '';
-$dbname = 'inventory-app';
+$dbname = 'inventory-apps';
 
 try {
     $config = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);

@@ -37,11 +37,11 @@ class approvalController
             <td>{$reqNum}</td>
             <td>{$reqDate}</td>
             <td>{$username}</td>
-            <td><label class='status {$status}'>{$status}</label></td>
+            <td><label class='status-badge {$status}'>{$status}</label></td>
             <td>{$supplier}</td>
             <td>";
             if ($row['statusId'] != '2') {
-                echo "<a href='index.php?route=purchaseRequest/requestDetail&{$qs}' class='btn btn-sm btn-primary'><i class='fa fa-pencil'></i></a>";
+                echo "<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=purchaseRequest/requestDetail&{$qs}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>";
             }
             if ($row['statusId'] == '2') {
                 $poUrl = base_url('export/pdf/generatePo.php?requestNumber=' . $row['requestNumber']);

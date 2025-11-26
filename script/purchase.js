@@ -39,11 +39,12 @@ function submitRequest() {
   };
 
   $.ajax({
-    url: "middleware/ajax_handler.php?controller=purchaseRequest&action=store", // sesuaikan dengan route-mu
+    url: "middleware/ajax_handler.php?controller=purchaseRequest&action=store",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(dto),
     success: function (response) {
+      console.log(response);
       Swal.fire({
         title: "Success!",
         text: "Purchase request created successfully.",
