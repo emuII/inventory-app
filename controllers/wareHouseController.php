@@ -38,9 +38,8 @@ class wareHouseController
             echo "<tr style='text-align: center;'>
             <td style='width:4%;'>" . ($index + 1) . "</td>
             <td style='width:14%;'>{$requestNumber}</td>
-            <td style='width:10%; text-align:right;'>{$unitPrice}</td>
-            <td style='width:9%;'>{$orderQty}</td>
-            <td style='width:9%;'>{$receiveQty}</td>
+            <td style='width:14%;'>{$orderQty}</td>
+            <td style='width:14%;'>{$receiveQty}</td>
             <td style='width:12%; text-align:right;'>{$totalAmount}</td>
             <td style='width:9%;'>{$dateIn}</td>
             <td style='width:13%;'>{$supplier}</td>

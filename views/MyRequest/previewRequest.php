@@ -32,11 +32,11 @@
                              <tr>
                                  <td><?= htmlspecialchars($index + 1) ?></td>
                                  <td><?= htmlspecialchars($row['itemName']) ?></td>
+                                 <td><?= htmlspecialchars($row['qty']) ?></td>
                                  <td><?= htmlspecialchars($dataHeader['supplierName']) ?></td>
                                  <td><?= htmlspecialchars($dataHeader['approverName']) ?></td>
                                  <td><label class="status-badge <?= htmlspecialchars($dataHeader['statusName']) ?>"><?= htmlspecialchars($dataHeader['statusName']) ?></label></td>
-                                 <td><?= htmlspecialchars($row['qty']) ?></td>
-                                 <td><?= htmlspecialchars($row['notes'] ?? '') ?></td>
+                                 <td><?= htmlspecialchars($row['Notes'] ?? '') ?></td>
                              </tr>
                          <?php
                             }

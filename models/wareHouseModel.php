@@ -27,8 +27,8 @@ class wareHouseModel
                     MS.supplier_name AS supplierName,
                     MST.name AS statusName,
                     MS.id AS supplierId,
-                    SUM(PRD.qty) AS orderQty,
-                    COALESCE(SUM(WHD.qty), SUM(WHH.total_qty), 0) AS receiveQty,
+                    PRD.orderQty,
+                    (WHH.total_qty * PRD.countQty) AS receiveQty,
                     FORMAT(MAX(WHD.unit_price), 0, 'id_ID') AS unitPrice
                 FROM warehouse W
                 JOIN purchase_request PR ON W.pr_id = PR.id
@@ -37,8 +37,15 @@ class wareHouseModel
                 JOIN m_status MST ON W.status = MST.value AND MST.code = 'warehouse'
                 LEFT JOIN warehouse_detail WHD 
                     ON WHD.warehouse_id = W.id
-                LEFT JOIN purchase_request_detail PRD 
-                    ON PRD.pr_id = PR.id
+                JOIN (
+                    SELECT 
+                        PD.pr_id,
+                        COUNT(*) AS countQty,
+                        SUM(PD.qty) AS orderQty
+                    FROM purchase_request_detail PD
+                    GROUP BY PD.pr_id
+                ) PRD
+                    ON PR.id = PRD.pr_id
                 LEFT JOIN
                 (
                     SELECT warehouse_detail_id,
@@ -258,12 +265,13 @@ class wareHouseModel
             if (!$isMatch["is_match"]) {
                 $warehouseStatus = 2;
             } else {
-                $isReceive = $this->validateForStock($warehouseId);
                 foreach ($warehouseDetails as $obj) {
                     $updateDetail = $this->pdo->prepare("
                         UPDATE warehouse_detail
                         SET unit_price = :unitPrice,
-                            qty = :qtyReceive,
+                            qty = (SELECT IFNULL(SUM(qty), 0)
+                                   FROM warehouse_history
+                                   WHERE warehouse_detail_id = :whdId),
                             notes = :notes,
                             updated_at = NOW()
                         WHERE id = :whdId
@@ -271,7 +279,6 @@ class wareHouseModel
 
                     $updateDetail->execute([
                         ':unitPrice'  => $obj['unitPrice'],
-                        ':qtyReceive' => (int)$isReceive['receiveQty'],
                         ':notes'      => $obj['notes'],
                         ':whdId'      => (int)$obj['whdId'],
                     ]);

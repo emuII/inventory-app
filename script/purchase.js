@@ -1,38 +1,64 @@
-$(function () {
+$(document).ready(function () {
   $("#prForm").on("submit", function (e) {
     e.preventDefault();
     submitRequest();
   });
+
+  initItemSelect2();
 });
 
 function submitRequest() {
-  const body = $(".item-row");
+  const body = $(".container-section .search-section");
   let items = new Array();
   let requestDate = $("#request_date").val();
   let storeAddress = $("#address").val();
-  let selApprover = parseInt($("#sel_approver").val());
+  let selApprover = $("#sel_approver").val();
   let approverName = $("#sel_approver :selected")
     .text()
     .replace(/\s+/g, " ")
     .trim();
   let remarksApprover = $("#remarks_approver").val();
-  let supplierId = parseInt($("#sel_supplier").val());
+  let supplierId = $("#sel_supplier").val();
+
+  if (!supplierId) {
+    alert("Supplier harus dipilih.");
+    return false;
+  }
+
+  if (!selApprover) {
+    alert("Approver harus dipilih.");
+    return false;
+  }
+
+  if (!requestDate) {
+    alert("Request date harus diisi.");
+    return false;
+  }
 
   body.each(function (index, item) {
     item = $(item);
+    let itemId = item.find("select[name='select_item']").val();
+    let qty = item.find("input[name='qty']").val();
+    let notes = item.find("textarea[name='notes']").val();
+
+    if (!itemId || !qty) {
+      alert(`Item ${index + 1} harus diisi dengan lengkap.`);
+      return false;
+    }
+
     items.push({
-      itemId: parseInt(item.find("select[name='select_item']").val()),
-      qty: parseInt(item.find("input[name='qty']").val()),
-      notes: item.find("textarea[name='notes']").val(),
+      itemId: parseInt(itemId),
+      qty: parseInt(qty),
+      notes: notes || "",
     });
   });
 
   let dto = {
-    supplierId: supplierId,
+    supplierId: parseInt(supplierId),
     requestDate: requestDate,
     storeAddress: storeAddress,
     statusRequest: 1,
-    selApprover: selApprover,
+    selApprover: parseInt(selApprover),
     approverName: approverName,
     remarksApprover: remarksApprover,
     itemDetails: items,
@@ -60,84 +86,41 @@ function submitRequest() {
 }
 
 function addRow() {
-  const tpl = `<div class="card card-body item-row">
-                        <div class="table-responsive">
-                        <table class="table table-borderles tbl-item">
-                            <tbody>
-                            <tr>
-                                <td>Items</td>
-                                <td>
-                                <select class="form-control select2 select-item" name="select_item" required>
-                                    <option value="">-- Choose Item --</option>
-                                </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Qty</td>
-                                <td><input type="text" class="form-control" name="qty" required></td>
-                            </tr>
-                             <tr>
-                                <td>Notes</td>
-                                <td>
-                                    <textarea class="form-control" name="notes" style="resize: none; height: 100px;"></textarea>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+  const tpl = `<div class="search-section">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Product Name</label>
+                            <select class="form-control select2 select-item" name="select_item" required>
+                                <option value="">-- Choose Item --</option>
+                            </select>
                         </div>
                     </div>
-                    <br>`;
-  const $row = $(tpl).appendTo("#itemContainer");
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Quantity</label>
+                            <input type="text" class="form-control" name="qty" required>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label class="filter-label">Notes Product</label>
+                            <textarea class="form-control" name="notes" style="resize: none; height: 100px;"></textarea>
+                        </div>
+                    </div>
+                </div><br>`;
+
+  const $row = $(tpl).appendTo(".container-section");
   initItemSelect2($row);
 }
 
 function removeRow() {
-  let rows = $("#itemContainer .item-row");
-  if (rows.length > 1) {
-    rows.last().remove();
+  let sections = $(".container-section .search-section");
+  if (sections.length > 1) {
+    sections.last().next("br").remove();
+    sections.last().remove();
   } else {
     alert("Minimal satu item harus ada.");
   }
-}
-
-function initSupplierSelect2(ctx) {
-  const $scope = $(ctx || document);
-  const $parent = $(".modal:visible").length
-    ? $(".modal:visible")
-    : $(document.body);
-
-  $scope.find(".select-supplier").each(function () {
-    const $el = $(this);
-    if ($el.data("select2")) $el.select2("destroy");
-
-    $el.select2({
-      placeholder: "-- Choose Supplier --",
-      dropdownParent: $parent,
-      minimumInputLength: 0,
-      language: {
-        inputTooShort: () => "",
-      },
-      ajax: {
-        url: "middleware/ajax_handler.php?controller=supplier&action=GetSupplierEncode",
-        dataType: "json",
-        delay: 0,
-        data: (params) => ({
-          q: params.term || "",
-          page: params.page || 1,
-        }),
-        processResults: (data) => data,
-        cache: true,
-      },
-    });
-
-    $el.on("select2:open", function () {
-      const $search = $(".select2-container--open .select2-search__field");
-      $search.val(" ").trigger("input");
-      setTimeout(() => {
-        $search.val("").trigger("input");
-      }, 0);
-    });
-  });
 }
 
 function initItemSelect2(ctx) {
@@ -153,7 +136,7 @@ function initItemSelect2(ctx) {
       minimumInputLength: 0,
       dropdownParent: $parent,
       ajax: {
-        url: "middleware/ajax_handler.php?controller=item&action=GetItemEncode", // sesuaikan
+        url: "middleware/ajax_handler.php?controller=item&action=GetItemEncode",
         dataType: "json",
         delay: 300,
         data: (params) => ({

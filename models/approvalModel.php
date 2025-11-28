@@ -28,7 +28,7 @@ class approvalModel
                     AR.approver_name,
                     AR.Id approver_id
                 FROM purchase_request PR
-                JOIN m_status MST ON PR.status = MST.value AND MST.code = 'transaction'
+                JOIN m_status MST ON PR.status = MST.value AND MST.code = 'transaction' AND MST.value in(1,2,3)
                 JOIN m_user MU ON PR.requester_id = MU.id
                 JOIN m_supplier MS ON PR.supplier_id = MS.Id
                 JOIN approval_request AR ON PR.id = AR.pr_id

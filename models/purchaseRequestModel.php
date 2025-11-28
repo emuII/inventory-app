@@ -33,7 +33,6 @@ class purchaseRequestModel
                 JOIN m_supplier MS ON PR.supplier_id = MS.Id
                 WHERE 1 = 1 ";
 
-
         $params = [];
         if (!empty($filter_number)) {
             $sql .= " AND PR.pr_code LIKE ?";
@@ -69,9 +68,9 @@ class purchaseRequestModel
                 PR.pr_code requestNumber,
                 MS.supplier_name supplierName,
                 MS.supplier_address supplierAddress,
-                PR.request_date requestDate,
+                DATE_FORMAT(PR.request_date, '%d %b %Y') AS requestDate,
                 AR.approver_name approverName,
-                AR.remarks,
+                AR.remarks remarksApprover,
                 PR.store_address storeAddress,
                 MU.username requesterName,
                 MST.name statusName
@@ -96,7 +95,7 @@ class purchaseRequestModel
                     PRD.id PrdId,
                     PRD.item_id ItemId,
                     PRD.qty,
-                    PRD.notes Notes,
+                    PRD.notes AS Notes,
                     ITM.item_name itemName,
                     ITM.type,
                     ITM.category,

@@ -18,7 +18,7 @@ $resuestDetail = $resuestModel->requestDetails($requestNumber);
 
 
 $numberPr     = $requestData['requestNumber'] ?? '';
-$tanggal_po   = 'Jakarta, 23 Mei 2025';
+$tanggal_po = "Jakarta, " . date("d F Y", strtotime("now"));
 
 $supplier_address   =  $requestData['supplierAddress'] ?? '';
 
@@ -163,6 +163,7 @@ ob_start();
             <th style="width:3%;">No</th>
             <th style="width:15%;">Request Number</th>
             <th style="width:27%;">Item Name</th>
+            <th style="width:8%;">Quantity</th>
             <th style="width:18%;">Category</th>
             <th style="width:7%;">Type</th>
         </tr>
@@ -172,6 +173,7 @@ ob_start();
                     <td align="center"><?= $index + 1 ?></td>
                     <td align="center"><?= htmlspecialchars($row['requestNumber']) ?></td>
                     <td><?= htmlspecialchars($row['itemName']) ?></td>
+                    <td><?= htmlspecialchars($row['qty']) ?></td>
                     <td><?= htmlspecialchars($row['category']) ?></td>
                     <td><?= htmlspecialchars($row['type']) ?></td>
                 </tr>

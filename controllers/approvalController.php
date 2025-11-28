@@ -3,10 +3,14 @@ class approvalController
 {
     protected $model;
     protected $warehouse;
+    private $request;
+    private $helper;
     public function __construct($db)
     {
         $this->model = new approvalModel($db);
         $this->warehouse = new wareHouseModel($db);
+        $this->request = new PurchaseRequestModel($db);
+        $this->helper = new helperModel($db);
     }
 
     public function approvalList()

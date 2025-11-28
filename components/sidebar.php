@@ -65,7 +65,6 @@ $profile = $user_model->get_user_by_id($id);
             </div>
         </div>
     </li>
-
     <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix" aria-expanded="true"
             aria-controls="collapseSix">
@@ -77,6 +76,13 @@ $profile = $user_model->get_user_by_id($id);
                 <a class="collapse-item" href="index.php?route=warehouse_">Warehouse</a>
             </div>
         </div>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" href="index.php?route=DeliveryOrder">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Delivery Order</span></a>
+
     </li>
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>

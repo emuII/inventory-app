@@ -46,7 +46,7 @@ class purchaseRequestController
                         <i class="fa-solid fa-trash"></i>
                     </a>';
             }
-            echo "<a href='index.php?route=purchaseRequest/previewRequest&{$qs}' class='btn btn-sm btn-outline-warning action-btn' title='Preview'><i class='fa-solid fa-eye'></i></a>";
+            echo "<a href='index.php?route=purchaseRequest/previewRequest&{$qs}' class='btn btn-sm btn-outline-primary action-btn' title='Preview'><i class='fa-solid fa-eye'></i></a>";
 
             echo "</td></tr>";
         }
@@ -91,7 +91,7 @@ class purchaseRequestController
         $dataHeader = $this->model->requestHeader($requestNumber);
         $dataDetail = $this->model->requestDetails($requestNumber);
         $helper = $this->helper->getStatus("transaction");
-        include 'views/myapproval/approvalDetails.php';
+        include 'views/myapproval/approvalDetail.php';
     }
 
     public function store()

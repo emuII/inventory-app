@@ -87,7 +87,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Request Number</th>
-                            <th>Unit Price</th>
                             <th>Order Qty</th>
                             <th>Receive Qty</th>
                             <th>Total Amount</th>
