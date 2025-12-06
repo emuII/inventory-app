@@ -9,10 +9,32 @@ class itemModel
 
     public function itemList()
     {
-        $query = "SELECT itm.Id, itm.item_name, itm.type, itm.category, itm.qty,  FORMAT(itm.buy_price, 0, 'id_ID') AS buy_price,  FORMAT(itm.sales_price, 0, 'id_ID') AS sales_price FROM m_item itm";
+        $filter_name    = htmlentities($_POST['filter_name'] ?? '');
+        $filert_type    = htmlentities($_POST['filter_type'] ?? '');
+
+        $query = "SELECT itm.Id,
+                    itm.item_name,
+                    itm.type,
+                    itm.category,
+                    itm.qty,
+                    FORMAT(itm.buy_price, 0, 'id_ID') AS buy_price,
+                    FORMAT(itm.sales_price, 0, 'id_ID') AS sales_price
+                FROM m_item itm
+                WHERE 1=1 ";
+
+        $params = [];
+
+        if (!empty($filter_name)) {
+            $query .= " AND itm.item_name LIKE ?";
+            $params[] = "%$filter_name%";
+        }
+        if (!empty($filert_type)) {
+            $query .= " AND itm.type LIKE ?";
+            $params[] = "%$filert_type%";
+        }
         $query .= " ORDER BY itm.id DESC";
         $row = $this->db->prepare($query);
-        $row->execute();
+        $row->execute($params);
         return $row->fetchAll();
     }
 
@@ -20,18 +42,37 @@ class itemModel
     {
         header('Content-Type: application/json; charset=utf-8');
 
-        $sql = "SELECT itm.Id, itm.item_name, itm.type, itm.category, itm.qty,
-                 itm.buy_price, itm.sales_price FROM m_item itm";
+        // ambil keyword dari select2
+        $q = isset($_GET['q']) ? trim($_GET['q']) : '';
+
+        $sql = "SELECT itm.Id,
+                   itm.item_name,
+                   itm.type,
+                   itm.category,
+                   itm.qty,
+                   itm.buy_price,
+                   itm.sales_price
+            FROM m_item itm";
+
+        $params = [];
+
+        if ($q !== '') {
+            $sql .= " WHERE itm.item_name LIKE :q
+                  OR itm.type LIKE :q
+                  OR itm.category LIKE :q";
+            $params[':q'] = '%' . $q . '%';
+        }
+
+        $sql .= " ORDER BY itm.item_name ASC LIMIT 50";
 
         try {
             $stmt = $this->db->prepare($sql);
-            $stmt->execute();
+            $stmt->execute($params);
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Format hasil sesuai kebutuhan Select2
             $results = array_map(function ($r) {
                 return [
-                    'id'   => $r['Id'],
+                    'id'   => (int)$r['Id'],
                     'text' => $r['item_name'] . ' - ' . $r['type'] . ' (' . $r['category'] . ')'
                 ];
             }, $rows);

@@ -32,7 +32,7 @@ try {
     $sheet = $spreadsheet->getActiveSheet();
     $rows = $sheet->toArray(null, true, true, false);
 
-    $sql = "INSERT INTO m_item (item_name, `type`, category, qty, price)
+    $sql = "INSERT INTO m_item (item_name, type, category, qty, sales_price)
             VALUES (:item_name, :type, :category, :qty, :price)";
     $stmt = $pdo->prepare($sql);
 

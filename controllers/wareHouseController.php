@@ -65,7 +65,7 @@ class wareHouseController
         }
         $whDetail = $this->warehouse->wareHouseDetail($warehouseId);
         $whHistory =  $this->warehouse->wareHouseHistory($warehouseId);
-        include 'views/wareHouse_/wareHouseDetail.php';
+        include 'views/WareHouses/wareHouseDetail.php';
     }
 
     public function submitWareHouse()

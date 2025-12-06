@@ -28,6 +28,9 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+            <div class="filter-row">
                 <div class="filter-group">
                     <label class="filter-label">Supplier</label>
                     <select class="form-control form-control-modern select2" name="supplier_name">
@@ -45,9 +48,7 @@
                         <?php } ?>
                     </select>
                 </div>
-            </div>
-            <div class="filter-row">
-                <div class="filter-group" style="width: 27em;">
+                <div class="filter-group">
                     <label class="filter-label">Status</label>
                     <select class="form-control form-control-modern select2" name="transaction_status">
                         <option value="0">All Statuses</option>

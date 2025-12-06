@@ -21,6 +21,7 @@
     <link href="public/sb-admin/css/sb-admin-2.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="public/custom/style.css">
+    <link rel="stylesheet" href="public/custom/custom-modal.css">
 
     <!-- DATATABLES BS 4-->
     <link rel="stylesheet" href="public/sb-admin/vendor/datatables/dataTables.bootstrap4.css" />
@@ -30,7 +31,8 @@
     <script src="public/sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="public/sb-admin/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="public/sweetalert/sweetalert2.all.min.js"></script>
+
 
     <link rel="stylesheet" href="public/date-picker/dist/css/bootstrap-datepicker.min.css" />
 </head>

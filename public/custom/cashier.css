@@ -1,0 +1,25 @@
+.dataTables_wrapper .dataTables_length .custom-select {
+  width: 50px !important;
+  min-width: 50px !important;
+  display: inline-block !important;
+}
+
+.dataTables_wrapper .dataTables_length select {
+  width: 50px !important;
+  min-width: 50px !important;
+  display: inline-block !important;
+  margin: 0 5px;
+}
+
+.dataTables_wrapper .dataTables_length label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.dataTables_wrapper .dataTables_length {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

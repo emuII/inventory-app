@@ -4,12 +4,13 @@ $(document).ready(function () {
     submitRequest();
   });
 
+  // init untuk row awal
   initItemSelect2();
 });
 
 function submitRequest() {
   const body = $(".container-section .search-section");
-  let items = new Array();
+  let items = [];
   let requestDate = $("#request_date").val();
   let storeAddress = $("#address").val();
   let selApprover = $("#sel_approver").val();
@@ -35,30 +36,35 @@ function submitRequest() {
     return false;
   }
 
-  body.each(function (index, item) {
-    item = $(item);
-    let itemId = item.find("select[name='select_item']").val();
-    let qty = item.find("input[name='qty']").val();
-    let notes = item.find("textarea[name='notes']").val();
+  let isValid = true;
+
+  body.each(function (index, el) {
+    const $item = $(el);
+    let itemId = $item.find("select[name='select_item']").val();
+    let qty = $item.find("input[name='qty']").val();
+    let notes = $item.find("textarea[name='notes']").val();
 
     if (!itemId || !qty) {
       alert(`Item ${index + 1} harus diisi dengan lengkap.`);
-      return false;
+      isValid = false;
+      return false; // break .each
     }
 
     items.push({
-      itemId: parseInt(itemId),
-      qty: parseInt(qty),
+      itemId: parseInt(itemId, 10),
+      qty: parseInt(qty, 10),
       notes: notes || "",
     });
   });
 
+  if (!isValid) return false;
+
   let dto = {
-    supplierId: parseInt(supplierId),
+    supplierId: parseInt(supplierId, 10),
     requestDate: requestDate,
     storeAddress: storeAddress,
     statusRequest: 1,
-    selApprover: parseInt(selApprover),
+    selApprover: parseInt(selApprover, 10),
     approverName: approverName,
     remarksApprover: remarksApprover,
     itemDetails: items,
@@ -86,30 +92,35 @@ function submitRequest() {
 }
 
 function addRow() {
-  const tpl = `<div class="search-section">
-                    <div class="filter-row">
-                        <div class="filter-group">
-                            <label class="filter-label">Product Name</label>
-                            <select class="form-control select2 select-item" name="select_item" required>
-                                <option value="">-- Choose Item --</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-row">
-                        <div class="filter-group">
-                            <label class="filter-label">Quantity</label>
-                            <input type="text" class="form-control" name="qty" required>
-                        </div>
-                    </div>
-                    <div class="filter-row">
-                        <div class="filter-group">
-                            <label class="filter-label">Notes Product</label>
-                            <textarea class="form-control" name="notes" style="resize: none; height: 100px;"></textarea>
-                        </div>
-                    </div>
-                </div><br>`;
+  const tpl = `
+    <div class="search-section">
+        <div class="filter-row">
+            <div class="filter-group">
+                <label class="filter-label">Product Name</label>
+                <select class="form-control select2 select-item" name="select_item" required>
+                    <option value="">-- Choose Item --</option>
+                </select>
+            </div>
+        </div>
+        <div class="filter-row">
+            <div class="filter-group">
+                <label class="filter-label">Quantity</label>
+                <input type="text" class="form-control" name="qty" required>
+            </div>
+        </div>
+        <div class="filter-row">
+            <div class="filter-group">
+                <label class="filter-label">Notes Product</label>
+                <textarea class="form-control" name="notes" style="resize: none; height: 100px;"></textarea>
+            </div>
+        </div>
+    </div>
+    <br>
+  `;
 
   const $row = $(tpl).appendTo(".container-section");
+
+  // init select2 hanya di row baru
   initItemSelect2($row);
 }
 
@@ -122,16 +133,22 @@ function removeRow() {
     alert("Minimal satu item harus ada.");
   }
 }
-
 function initItemSelect2(ctx) {
   const $scope = $(ctx || document);
-  const $parent = $(".modal:visible").length
-    ? $(".modal:visible")
-    : $(document.body);
 
-  $scope.find(".select-item").each(function () {
-    if ($(this).data("select2")) $(this).select2("destroy");
-    $(this).select2({
+  $scope.find("select.select-item").each(function () {
+    const $select = $(this);
+
+    if ($select.data("select2")) {
+      $select.select2("destroy");
+    }
+
+    const $parent =
+      $select.closest(".modal").length > 0
+        ? $select.closest(".modal")
+        : $(document.body);
+
+    $select.select2({
       placeholder: "-- Choose Item --",
       minimumInputLength: 0,
       dropdownParent: $parent,
@@ -139,11 +156,18 @@ function initItemSelect2(ctx) {
         url: "middleware/ajax_handler.php?controller=item&action=GetItemEncode",
         dataType: "json",
         delay: 300,
-        data: (params) => ({
-          q: params.term || "",
-          page: params.page || 1,
-        }),
-        processResults: (data) => data,
+        data: function (params) {
+          return {
+            q: params.term || "",
+            page: params.page || 1,
+          };
+        },
+        processResults: function (data) {
+          // FIX PENTING!!!
+          return {
+            results: data.results,
+          };
+        },
       },
     });
   });

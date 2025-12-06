@@ -45,8 +45,18 @@ class supplierModel
 
     public function getSupplierbyCode($supplier_code)
     {
-        $sql = "SELECT mst.name as status_name, mst.desc as status_desc, mst.Id as status_id, msp.* FROM m_supplier msp
-                JOIN m_status mst on msp.status = mst.value
+        $sql = "SELECT mst.name AS status_name,
+                    mst.Id AS statusId,
+                    msp.Id AS supplierId,
+                    msp.supplier_code AS supplierCode,
+                    msp.supplier_name AS supplierName,
+                    msp.supplier_address AS supplierAddress,
+                    msp.supplier_contact AS supplierContact,
+                    msp.status AS supplierStatus
+                FROM m_supplier msp
+                    JOIN m_status mst
+                        ON msp.status = mst.value
+                        AND mst.code = 'general'
                 WHERE msp.supplier_code = ?";
         $row = $this->db->prepare($sql);
         $row->execute(array($supplier_code));
@@ -90,6 +100,52 @@ class supplierModel
         } catch (Throwable $e) {
             http_response_code(500);
             echo json_encode(['error' => true, 'message' => $e->getMessage()]);
+        }
+    }
+    public function updateSupplier($data)
+    {
+        $this->db->beginTransaction();
+        try {
+            $sql = "UPDATE m_supplier
+                SET supplier_name = :supplierName,
+                    supplier_address = :supplierAddress, 
+                    supplier_contact = :supplierContact, 
+                    status = :supplierStatus
+                WHERE supplier_code = :supplierCode";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':supplierName'  => $data['supplierName'],
+                ':supplierAddress'  => $data['supplierAddress'],
+                ':supplierContact'  => $data['supplierContact'],
+                ':supplierStatus'  => $data['supplierStatus'],
+                ':supplierCode'  => $data['supplierCode'],
+            ]);
+            $this->db->commit();
+            return true;
+        } catch (Throwable $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
+    public function deleteSupplier($supplierCode)
+    {
+        $this->db->beginTransaction();
+        try {
+            $sql = "UPDATE m_supplier
+                SET status = 3
+                WHERE supplier_code = :supplierCode";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':supplierCode'  => $supplierCode,
+            ]);
+            $this->db->commit();
+            return true;
+        } catch (Throwable $e) {
+            $this->db->rollBack();
+            throw $e;
         }
     }
 }

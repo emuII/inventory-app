@@ -68,6 +68,7 @@ class purchaseRequestController
             echo json_encode(['ok' => false, 'error' => $e->getMessage()]);
         }
     }
+
     public function previewRequest()
     {
         $requestNumber = $_GET['requestNumber'] ?? null;

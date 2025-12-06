@@ -121,4 +121,4 @@
         </div>
     </div>
 </form>
-<script src=" script/purchase.js"></script>
+<script src="script/purchase.js"></script>

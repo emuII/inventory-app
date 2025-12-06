@@ -12,7 +12,7 @@ class itemController
         $data = $this->model->itemList();
 
         if (empty($data)) {
-            echo '<tr><td colspan="6" style="text-align: center;">No product found.</td></tr>';
+            echo '<tr><td colspan="7" style="text-align: center;">No product found.</td></tr>';
             return;
         }
 
@@ -37,5 +37,10 @@ class itemController
             http_response_code(500);
             echo json_encode(['error' => true, 'message' => $e->getMessage()]);
         }
+    }
+
+    public function addSingleItem()
+    {
+        include 'views/Items/addSingleItem.php';
     }
 }

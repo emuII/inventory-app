@@ -260,6 +260,17 @@ body {
   border: 1px solid rgba(40, 167, 69, 0.3);
 }
 
+.Active {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #1e7e34;
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.inActive {
+  background-color: rgb(218 61 61 / 15%);
+  color: #a58585;
+  border: 1px solid rgb(254 0 0 / 30%);
+}
 .Cancel {
   background-color: rgba(108, 117, 125, 0.15);
   color: #6c757d;
@@ -271,10 +282,6 @@ body {
   }
 }
 
-/* ===== CSS TAMBAHAN UNTUK KASIR ===== */
-/* Tidak mengubah CSS yang sudah ada di atas */
-
-/* Badge untuk jenis item */
 .badge-service {
   background-color: rgba(67, 97, 238, 0.15);
   color: var(--primary-color);
@@ -285,6 +292,12 @@ body {
   background-color: rgba(76, 201, 240, 0.15);
   color: var(--success-color);
   border: 1px solid rgba(76, 201, 240, 0.3);
+}
+
+.badge-accessories {
+  background-color: rgba(155, 89, 182, 0.15);
+  color: #9b59b6;
+  border: 1px solid rgba(155, 89, 182, 0.3);
 }
 
 /* Selected row - tanpa hover */
