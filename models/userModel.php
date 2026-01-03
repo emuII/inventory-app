@@ -92,7 +92,8 @@ class userModel
                     mu.full_name,
                     mu.email,
                     mu.role,
-                    st.name statusName
+                    st.name statusName,
+                    mu.status
                 FROM m_user mu
                 JOIN m_status st on mu.status = st.value and st.code = 'general' 
             WHERE mu.id = ?";
