@@ -1,0 +1,179 @@
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 992px) {
+  .profile-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card-header {
+  background: #f8f9fa;
+  color: #2c3e50;
+  padding: 20px 25px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.card-header h2 {
+  font-size: 22px;
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+.card-header p {
+  opacity: 0.7;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.card-body {
+  padding: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #3a7bd5;
+}
+
+.form-control:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #3a7bd5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.user-details h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
+  color: #2c3e50;
+}
+
+.user-details p {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.role-super_admin {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.role-requestor {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.role-approval {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.role-cashier {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.role-warehouse {
+  background-color: #e0f2f1;
+  color: #00695c;
+}
+
+.status-active {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.status-inactive {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .profile-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .avatar {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+}

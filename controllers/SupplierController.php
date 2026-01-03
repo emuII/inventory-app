@@ -35,12 +35,17 @@ class supplierController
                 <td><label class='status-badge {$statusName}'>{$statusName}</label></td>
                 <td>{$supplierContact}</td>
                 <td>";
-            echo "<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=supplier/SupplierDetail&{$qs}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>";
-            echo '<a class="btn btn-sm btn-outline-danger action-btn"
+            if (
+                isset($_SESSION['active_login']['role']) &&
+                $_SESSION['active_login']['role'] === 'super_admin'
+            ) {
+                echo "<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=supplier/SupplierDetail&{$qs}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>";
+                echo '<a class="btn btn-sm btn-outline-danger action-btn"
                         onclick="deleteSupplier(\'' . $supplierCode . '\')"
                         title="Cancel Request">
                         <i class="fa-solid fa-trash"></i>
                     </a>';
+            }
             echo "</td></tr>";
         }
     }

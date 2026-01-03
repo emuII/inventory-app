@@ -3,6 +3,8 @@
   --primary-color: #4361ee;
   --secondary-color: #3f37c9;
   --success-color: #4cc9f0;
+  --excel-color: #00ac56;
+  --excel-scondary-color: #03c126;
   --light-bg: #f8f9fa;
   --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -84,11 +86,21 @@ body {
   color: white !important;
 }
 
-.btn-primary-modern:hover {
+.btn-excel-modern {
   background: linear-gradient(
     135deg,
-    var(--secondary-color),
-    var(--primary-color)
+    var(--excel-color),
+    var(--excel-scondary-color)
+  );
+  border: none;
+  color: white !important;
+}
+
+.btn-excel-modern:hover {
+  background: linear-gradient(
+    135deg,
+    var(--excel-color),
+    var(--excel-scondary-color)
   );
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
@@ -241,6 +253,11 @@ body {
   background-color: rgba(255, 193, 7, 0.15);
   color: #e0a800;
   border: 1px solid rgba(255, 193, 7, 0.3);
+}
+.Reject {
+  background-color: rgb(255 7 15 / 15%);
+  color: #ff0000;
+  border: 1px solid rgb(255 7 7 / 30%);
 }
 .Process {
   background-color: rgba(23, 162, 184, 0.15);

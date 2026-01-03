@@ -11,14 +11,14 @@ if (isset($_POST['proses'])) {
     $user = strip_tags($_POST['user']);
     $pass = strip_tags($_POST['pass']);
 
-    $sql = 'SELECT id, username, password, email, role FROM m_user WHERE username = ? and password = md5(?)';
+    $sql = 'SELECT id, username, password, full_name, email, role FROM m_user WHERE username = ? and password = md5(?) and status = 2';
     $row = $config->prepare($sql);
     $row->execute(array($user, $pass));
     $resdata = $row->rowCount();
     if ($resdata > 0) {
-        $respnse = $row->fetch();
-        $_SESSION['active_login'] = $respnse;
-        echo '<script>window.location="index.php"</script>';
+        $response = $row->fetch();
+        $_SESSION['active_login'] = $response;
+        echo '<script>window.location="index.php?route=Dashboards"</script>';
     } else {
         echo '<script>alert("login failed");history.go(-1);</script>';
     }

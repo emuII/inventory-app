@@ -12,7 +12,6 @@ require_once 'helpers/format_helper.php';
                 </div>
             </div>
         </div>
-
         <?php if (!empty($whHistory)) { ?>
             <?php
             $grouped = [];
@@ -67,9 +66,7 @@ require_once 'helpers/format_helper.php';
                     </button>
                 </div>
             </div>
-
         <?php } ?>
-
         <br>
         <div class="card card-body card-for-all <?= !empty($whHistory) ? 'd-none' : '' ?>" id="currentReceiveSection">
             <div class="d-flex justify-content-between align-items-center mb-3">

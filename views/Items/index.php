@@ -29,6 +29,7 @@
                 <div class="filter-group">
                     <label class="filter-label">Type</label>
                     <select class="form-control form-control-modern select2" name="filter_type" id="filter_type">
+                        <option value="">--[Please Select]--</option>
                         <option value="All">All</option>
                         <option value="Sport">Sport</option>
                         <option value="Matic">Matic</option>
@@ -48,9 +49,9 @@
                     <i class="fa fa-plus"></i> Add Multiple Prodcut</button>
                 <a type="button" href="index.php?route=item/addSingleItem" class="btn btn-primary-modern btn-md mr-2">
                     <i class="fa fa-plus"></i> Add Single Prodcut</a>
+            </div>
         </form>
     </div>
-
 </div>
 <br>
 
@@ -66,10 +67,10 @@
                     <th>Qty</th>
                     <th>Buy Pice</th>
                     <th>Sales Pice</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="tableItem">
-
             </tbody>
         </table>
     </div>

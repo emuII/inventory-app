@@ -12,6 +12,8 @@ if (!empty($_SESSION['active_login'])) {
     $approval_member  = new approvalMemberModel($config);
     $request          = new purchaseRequestModel($config);
     $store          = new storeModel($config);
+    $dashboard = new dashboardModel($config);
+    $alertModel = new alertModel($config);
 
     include 'components/header.php';
     include 'components/sidebar.php';

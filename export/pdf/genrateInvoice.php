@@ -1,70 +1,24 @@
 <?php
-// reports/invoice.php
+require __DIR__ . '/../../config/database.php';
+require __DIR__ . '/../../models/storeModel.php';
+require __DIR__ . '/../../models/deliveryOrderModel.php';
+require __DIR__ . '/../../models/deliveryOrderLogModel.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-// Data dummy perusahaan
-$companyData = [
-    'name' => 'PT PERKASA SAKTI TOEJOEH',
-    'street' => 'Jl. Raya Kencana No. 123',
-    'city' => 'Bandung',
-    'zip' => '40257',
-    'country' => 'Indonesia',
-    'phone' => '(022) 1234-5678',
-    'email' => 'info@perkasasakti.com'
-];
+$doNumber = $_GET['doNumber'] ?? null;
 
-// Data dummy invoice
-$invoiceData = [
-    'number' => 'INV/2025/03/00125',
-    'date' => '15 Maret 2025',
-    'due_date' => '14 April 2025',
-    'status' => 'PAID'
-];
+$storeModel = new storeModel($config);
+$deliveryModel = new deliveryOrderModel($config);
+$deliveryLogModel = new deliveryOrderLogModel($config);
 
-// Data dummy items
-$invoiceItems = [
-    [
-        'description' => 'Oli Mesin Shell Advance Ultra 1L',
-        'amount' => 3,
-        'unit' => 'Rp 85.000',
-        'total' => 'Rp 255.000'
-    ],
-    [
-        'description' => 'Kampas Rem Depan Honda Beat',
-        'amount' => 2,
-        'unit' => 'Rp 120.000',
-        'total' => 'Rp 240.000'
-    ],
-    [
-        'description' => 'Ban Dalam 80/90-14',
-        'amount' => 2,
-        'unit' => 'Rp 75.000',
-        'total' => 'Rp 150.000'
-    ],
-    [
-        'description' => 'Service Ganti Oli + Tune Up',
-        'amount' => 1,
-        'unit' => 'Rp 150.000',
-        'total' => 'Rp 150.000'
-    ],
-    [
-        'description' => 'Busi Iridium Denso',
-        'amount' => 4,
-        'unit' => 'Rp 45.000',
-        'total' => 'Rp 180.000'
-    ]
-];
+$companyData  = $storeModel->getStore();
 
-// Data dummy totals
-$invoiceTotals = [
-    'subtotal' => 'Rp 975.000',
-    'vat' => 'Rp 97.500',
-    'total' => 'Rp 1.072.500'
-];
+$invoiceData = $deliveryModel->getDeliveryOrderByCode($doNumber);
+$invoiceItems = $deliveryLogModel->deliveryLogOrderDetails($doNumber);
 
 ob_start();
 ?>
@@ -74,7 +28,7 @@ ob_start();
 
 <head>
     <meta charset="UTF-8">
-    <title>Invoice <?= htmlspecialchars($invoiceData['number']) ?></title>
+    <title>Invoice <?= htmlspecialchars($invoiceData['invoiceNumber']) ?></title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -298,10 +252,9 @@ ob_start();
     <div class="invoice-container">
         <!-- Header -->
         <div class="invoice-header">
-            <div class="company-name"><?= htmlspecialchars($companyData['name']) ?></div>
+            <div class="company-name"><?= htmlspecialchars($companyData['store_name']) ?></div>
             <div class="company-details">
-                <p><?= htmlspecialchars($companyData['street']) ?></p>
-                <p><?= htmlspecialchars($companyData['zip']) ?> <?= htmlspecialchars($companyData['city']) ?>, <?= htmlspecialchars($companyData['country']) ?></p>
+                <p><?= htmlspecialchars($companyData['address']) ?></p>
                 <p>T: <?= htmlspecialchars($companyData['phone']) ?> | E: <?= htmlspecialchars($companyData['email']) ?></p>
             </div>
         </div>
@@ -310,17 +263,16 @@ ob_start();
         <div class="invoice-info-section">
             <div class="info-box">
                 <div class="info-label">Invoice No.</div>
-                <div class="info-value"><?= htmlspecialchars($invoiceData['number']) ?></div>
+                <div class="info-value"><?= htmlspecialchars($invoiceData['invoiceNumber']) ?></div>
             </div>
             <div class="info-box">
                 <div class="info-label">Date</div>
-                <div class="info-value"><?= htmlspecialchars($invoiceData['date']) ?></div>
+                <div class="info-value"><?= htmlspecialchars($invoiceData['deliveryDate']) ?></div>
             </div>
             <div class="info-box">
                 <div class="info-label">Status</div>
                 <div class="info-value">
-                    <?= htmlspecialchars($invoiceData['status']) ?>
-                    <div class="status-badge"><?= htmlspecialchars($invoiceData['status']) ?></div>
+                    <?= htmlspecialchars($invoiceData['statusName']) ?>
                 </div>
             </div>
         </div>
@@ -341,12 +293,14 @@ ob_start();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($invoiceItems as $item): ?>
+                    <?php foreach (
+                        $invoiceItems as $item
+                    ): ?>
                         <tr>
-                            <td><?= htmlspecialchars($item['description']) ?></td>
-                            <td class="text-center"><?= htmlspecialchars($item['amount']) ?></td>
-                            <td class="text-center"><?= htmlspecialchars($item['unit']) ?></td>
-                            <td class="text-right bold"><?= htmlspecialchars($item['total']) ?></td>
+                            <td><?= htmlspecialchars($item['itemName']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($item['qtyOrder']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($item['salesPrice']) ?></td>
+                            <td class="text-right bold"><?= htmlspecialchars($item['subTotal']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -358,15 +312,15 @@ ob_start();
             <table class="totals-table">
                 <tr>
                     <td class="label">Subtotal</td>
-                    <td class="value"><?= htmlspecialchars($invoiceTotals['subtotal']) ?></td>
+                    <td class="value"><?= htmlspecialchars($invoiceData['subTotal']) ?></td>
                 </tr>
                 <tr>
                     <td class="label">VAT (10%)</td>
-                    <td class="value"><?= htmlspecialchars($invoiceTotals['vat']) ?></td>
+                    <td class="value"><?= htmlspecialchars($invoiceData['tax']) ?></td>
                 </tr>
                 <tr class="total-row">
                     <td class="label">Total</td>
-                    <td class="value"><?= htmlspecialchars($invoiceTotals['total']) ?></td>
+                    <td class="value"><?= htmlspecialchars($invoiceData['totalAmount']) ?></td>
                 </tr>
             </table>
         </div>
@@ -374,8 +328,8 @@ ob_start();
         <!-- Footer -->
         <div class="invoice-footer">
             <div class="footer-bottom">
-                <p>Invoice #<?= htmlspecialchars($invoiceData['number']) ?> | Generated on <?= date('d M Y H:i') ?></p>
-                <p><?= htmlspecialchars($companyData['name']) ?> | <?= htmlspecialchars($companyData['street']) ?>, <?= htmlspecialchars($companyData['city']) ?></p>
+                <p>Invoice #<?= htmlspecialchars($invoiceData['invoiceNumber']) ?> | Generated on <?= date('d M Y H:i') ?></p>
+                <p><?= htmlspecialchars($companyData['store_name']) ?> | <?= htmlspecialchars($companyData['address']) ?></p>
             </div>
         </div>
     </div>
@@ -401,7 +355,7 @@ $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
 
 // Output PDF
-$filename = 'Invoice_' . str_replace('/', '_', $invoiceData['number']) . '.pdf';
+$filename = 'Invoice_' . str_replace('/', '_', $invoiceData['invoiceNumber']) . '.pdf';
 $dompdf->stream($filename, [
     'Attachment' => true,
     'compress' => true

@@ -9,7 +9,7 @@
             </div>
             <div class="d-flex align-items-center flex-column flex-sm-row">
                 <div class="me-0 me-sm-3 mb-2 mb-sm-0" style="margin-right: 21px !important;">
-                    <strong>Cashier:</strong> Ahmad
+                    <strong>Cashier:</strong> <?php echo $_SESSION['active_login']['username'] ?>
                 </div>
                 <div class="bg-light text-dark px-3 py-1 rounded">
                     <strong>Date:</strong> <span id="current-date"></span>
@@ -74,7 +74,6 @@
                             </tr>
                         </thead>
                         <tbody id="cart-items">
-                            <!-- Cart items will be loaded here -->
                         </tbody>
                     </table>
                 </div>

@@ -64,7 +64,9 @@
                  </button> &nbsp;
                  <button class="btn btn-outline-secondary btn-modern" type="button" onclick="clearRequest();">
                      <i class="fas fa-trash me-2"></i> Clear Filters
-                 </button>
+                 </button> &nbsp;
+                 <button type="button" class="btn btn-excel-modern btn-md mr-2" onclick="exportPurchaseOrderToExcel();">
+                     <i class="fas fa-download"></i> Export Report
              </div>
          </form>
      </div>

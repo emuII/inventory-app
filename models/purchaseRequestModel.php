@@ -61,6 +61,70 @@ class purchaseRequestModel
         return $row->fetchAll();
     }
 
+    public function GetReportPurchaseOrder()
+    {
+        $filter_number = htmlentities($_POST['filter_number'] ?? '');
+        $dateFrom        = htmlentities($_POST['dateFrom'] ?? '');
+        $dateTo        = htmlentities($_POST['dateTo'] ?? '');
+        $transactionStatus = htmlentities($_POST['transaction_status'] ?? '');
+        $supplierName   = htmlentities($_POST['supplier_name'] ?? '');
+        $query = "SELECT
+                    PR.id AS pr_id,
+                    PR.pr_code AS request_number,
+                    DATE_FORMAT(PR.request_date, '%Y-%m-%d') AS request_date,
+                    MU.username AS requestor,
+                    MST.name AS status_name,
+                    MS.supplier_name AS supplier,
+                    
+                    PRD.id AS detail_id,
+                    PRD.line_no,
+                    PRD.qty AS quantity,
+                    
+                    MI.item_name,
+                    MI.type,
+                    MI.category,
+                    MI.buy_price AS unit_price
+                    
+                FROM purchase_request PR
+                JOIN purchase_request_detail PRD 
+                    ON PRD.pr_id = PR.id
+                JOIN m_item MI 
+                    ON MI.Id = PRD.item_id
+                JOIN m_status MST 
+                    ON PR.status = MST.value 
+                    AND MST.code = 'transaction'
+                JOIN m_user MU 
+                    ON PR.requester_id = MU.id
+                JOIN m_supplier MS 
+                    ON PR.supplier_id = MS.Id
+                WHERE 1=1";
+
+
+        $params = [];
+        if (!empty($filter_number)) {
+            $query .= " AND PR.pr_code LIKE ?";
+            $params[] = "%$filter_number%";
+        }
+        if (!empty($dateFrom) && !empty($dateTo)) {
+            $query .= " AND DATE(PR.request_date) BETWEEN ? AND ?";
+            $params[] = $dateFrom;   // format: 2025-11-20
+            $params[] = $dateTo;     // format: 2025-11-25
+        }
+        if (!empty($transactionStatus) && $transactionStatus != '0') {
+            $query .= " AND PR.status = ?";
+            $params[] = $transactionStatus;
+        }
+        if (!empty($supplierName) && $supplierName != '0') {
+            $query .= " AND PR.supplier_id = ?";
+            $params[] = $supplierName;
+        }
+
+        $query .= " ORDER BY PR.request_date DESC, PR.pr_code, PRD.line_no";
+        $row = $this->pdo->prepare($query);
+        $row->execute($params);
+        return $row->fetchAll();
+    }
+
     public function requestHeader(string $requestNumber)
     {
         $sql = "SELECT 

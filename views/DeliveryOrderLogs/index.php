@@ -49,13 +49,12 @@
                 <button class="btn btn-outline-secondary btn-modern" type="button" onclick="clearRequest();">
                     <i class="fas fa-trash me-2"></i> Clear Filters
                 </button> &nbsp;
-                <button type="button" class="btn btn-primary-modern btn-md mr-2" data-toggle="modal" data-target="#myModal">
-                    <i class="fa fa-plus"></i> Add Data</button>
+                <button type="button" class="btn btn-excel-modern btn-md mr-2" onclick="exportDeliveryOrderToExcel();">
+                    <i class="fas fa-download"></i> Export Report
             </div>
         </form>
     </div>
-
-</div> <br>
+</div><br>
 
 <div class="card card-body">
     <div class="table-responsive">

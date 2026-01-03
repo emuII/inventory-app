@@ -163,7 +163,6 @@ function initItemSelect2(ctx) {
           };
         },
         processResults: function (data) {
-          // FIX PENTING!!!
           return {
             results: data.results,
           };

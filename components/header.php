@@ -22,6 +22,7 @@
 
     <link rel="stylesheet" href="public/custom/style.css">
     <link rel="stylesheet" href="public/custom/custom-modal.css">
+    <link rel="stylesheet" href="public/custom/profile.css">
 
     <!-- DATATABLES BS 4-->
     <link rel="stylesheet" href="public/sb-admin/vendor/datatables/dataTables.bootstrap4.css" />

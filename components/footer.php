@@ -35,11 +35,7 @@
     <script src="public/sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="public/sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <script type="text/javascript">
-
-    </script>
     <script type="application/javascript">
-        //angka 500 dibawah ini artinya pesan akan muncul dalam 0,5 detik setelah document ready
         $(document).ready(function() {
             setTimeout(function() {
                 $(".alert-danger").fadeIn('slow');

@@ -1,0 +1,116 @@
+<form id="userAdd" method="post" onsubmit="return false;">
+    <div class="container-fluid py-4">
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">Add User</h1>
+                    <p class="mb-0 opacity-75">Manage your form user</p>
+                </div>
+            </div>
+        </div>
+        <div class="container-section">
+            <div class="search-section">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Username</label>
+                        <input type="text" placeholder="Username" required class="form-control" name="username">
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Full Name</label>
+                        <input type="text" placeholder="Full Name" required class="form-control" name="full_name">
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Email</label>
+                        <input type="text" placeholder="Email" required class="form-control" name="email">
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Role</label>
+                        <select class="form-control select2" name="role">
+                            <option value="0"></option>
+                            <option value="requestor">Requestor</option>
+                            <option value="super_admin">Super Admin</option>
+                            <option value="approval">Approval</option>
+                            <option value="cashier">Cashier</option>
+                            <option value="warehouse">Warehouse</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Status</label>
+                        <select class="form-control select2" name="user_status">
+                            <option value="0"></option>
+                            <?php
+                            $response_data = $helper_model->getStatus("general");
+                            foreach ($response_data as $obj) {
+                                if ($obj['name'] == 'Active' || $obj['name'] == 'inActive') {
+                            ?>
+                                    <option value="<?php echo $obj['value']; ?>">
+                                        <?php echo $obj['name']; ?>
+                                    </option>
+                            <?php
+                                }
+                            }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-modern" type="button" onclick="history.back();">
+                        <i class="fa-solid fa-angle-left"></i>Close
+                    </button>&nbsp;
+                    <button class="btn btn-primary-modern btn-modern" type="submit">Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function() {
+        $("#userAdd").on("submit", function(e) {
+            e.preventDefault();
+            submitForm();
+        });
+    });
+
+    function submitForm() {
+        const data = {
+            username: $('input[name="username"]').val(),
+            full_name: $('input[name="full_name"]').val(),
+            email: $('input[name="email"]').val(),
+            role: $('select[name="role"]').val(),
+            user_status: $('select[name="user_status"]').val(),
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "middleware/ajax_handler.php?controller=userManagement&action=AddUser",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function(response) {
+                const res = JSON.parse(response);
+                if (res.ok) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: res.message,
+                        icon: "success",
+                    }).then(() => {
+                        window.location = "/inventory-app/index.php?route=userManagements/index&success=1";
+                    });
+                } else {
+                    alert("Failed to add user. Please fill all required fields.");
+                }
+            },
+            error: function(err) {
+                alert("Error submitting form");
+            }
+        });
+    }
+</script>

@@ -34,12 +34,15 @@ class deliveryOrderLogController
             <td style='width:12%;'>{$totalAmount}</td>
             <td style='width:9%;'>{$tax}</td>
             <td style='width:13%;'><label class='status-badge {$status}'>{$status}</label></td>
-            <td style='width:8%;'>
-               <a href='index.php?route=deliveryOrderLog/deliveryOrderLog&{$qs}' class='btn btn-sm btn-outline-primary action-btn' title='Preview'><i class='fa-solid fa-eye'></i></a>
-            </td></tr>";
+            <td style='width:8%;'>";
+            echo "<a href='index.php?route=deliveryOrderLog/deliveryOrderLog&{$qs}' class='btn btn-sm btn-outline-primary action-btn' title='Preview'><i class='fa-solid fa-eye'></i></a>";
+
+            $invUrl = base_url('export/pdf/genrateInvoice.php?doNumber=' . $row['doCode']);
+            echo "<a href='" . $invUrl . "' class='btn btn-sm btn-outline-success action-btn'><i class='fa-solid fa-download'></i></a>";
+
+            echo "</td></tr>";
         }
     }
-
 
     public function deliveryOrderLog()
     {
