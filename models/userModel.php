@@ -10,6 +10,7 @@ class userModel
     public function GetAllUsers()
     {
         $filter_name      = htmlentities($_POST['filter_name'] ?? '');
+        $filter_status      = htmlentities($_POST['filter_status'] ?? '');
         $sql = "select 
                 mu.Id,
                 mu.username,
@@ -18,7 +19,8 @@ class userModel
                 mu.role,
                 ms.name as statusName
         from m_user mu
-                join m_status ms on mu.status = ms.value and ms.code ='general';";
+                join m_status ms on mu.status = ms.value and ms.code ='general'
+                WHERE 1 = 1";
 
         $params = [];
 
@@ -27,6 +29,10 @@ class userModel
             $params[] = "%$filter_name%";
         }
 
+        if (!empty($filter_status)) {
+            $sql .= " AND ms.value = ?";
+            $params[] = $filter_status;
+        }
         $row = $this->db->prepare($sql);
 
         $row->execute($params);

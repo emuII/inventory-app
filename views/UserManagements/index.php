@@ -20,7 +20,7 @@
             <div class="filter-row">
                 <div class="filter-group" style="width: 27em;">
                     <label class="filter-label">Status</label>
-                    <select class="form-control form-control-modern select2" name="warehouse_status">
+                    <select class="form-control form-control-modern select2" name="filter_status">
                         <option value="0">All Statuses</option>
                         <?php $response_data = $helper_model->getStatus("general");
                         foreach ($response_data as $obj) {     ?>
