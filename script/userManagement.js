@@ -3,26 +3,48 @@ $(document).ready(function () {
 });
 
 function searchUser() {
-  $.ajax({
-    type: "POST",
-    url: "middleware/ajax_handler.php?controller=userManagement&action=GetAllUsers",
-    data: $("#searchForm").serialize(),
-    success: function (response) {
-      console.table(response);
-      if ($.fn.DataTable.isDataTable("#tbUser")) {
-        $("#tbUser").DataTable().destroy();
-      }
+  $("#tbUser").DataTable({
+    destroy: true,
+    ajax: {
+      url: "middleware/ajax_handler.php?controller=userManagement&action=GetAllUsers",
+      type: "POST",
+      data: function () {
+        return $("#searchForm").serializeArray();
+      },
+      dataSrc: "result",
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "username" },
+      { data: "full_name" },
+      { data: "role" },
+      {
+        data: "statusName",
+        render: function (data) {
+          return `<label class="status-badge ${data}">${data}</label>`;
+        },
+      },
+      { data: "email" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          let btn = "";
 
-      $("#userTable").html(response);
-      $("#tbUser").DataTable();
-    },
-    error: function (err) {
-      alert("Error loading data");
-    },
+          btn += `<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=UserManagement/userUpdate&userId=${row.Id}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>`;
+
+          return btn;
+        },
+      },
+    ],
   });
 }
 
-function celarSupplier() {
+function celarUser() {
   $("#searchForm")[0].reset();
   $("#searchForm select.select2").val("").trigger("change");
   searchSupplier();

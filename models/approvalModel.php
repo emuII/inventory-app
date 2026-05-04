@@ -11,36 +11,60 @@ class approvalModel
 
     public function approvalList(int $approverId)
     {
-        $requestNumber    = htmlentities($_POST['requestNumber'] ?? '');
-        $statusId    = htmlentities($_POST['statusId'] ?? '');
-        $supplierId    = htmlentities($_POST['supplierId'] ?? '');
+        $requestNumber = $_POST['requestNumber'] ?? '';
+        $statusId      = $_POST['transaction_status'] ?? '';
+        $supplierId    = $_POST['supplier_name'] ?? '';
+        $dateFrom       = $_POST['dateFrom'] ?? '';
+        $dateTo         = $_POST['dateTo'] ?? '';
 
         $sql = "SELECT 
-                    PR.id,
-                    PR.pr_code requestNumber,
-                    DATE_FORMAT(PR.request_date, '%d %b %Y') AS requestDate,
-                    PR.status statusId,
-                    MST.name statusName,
-                    PR.supplier_id,
-                    MS.supplier_name,
-                    PR.requester_id,
-                    MU.username,
-                    AR.approver_name,
-                    AR.Id approver_id
-                FROM purchase_request PR
-                JOIN m_status MST ON PR.status = MST.value AND MST.code = 'transaction' AND MST.value in(1,2,3)
-                JOIN m_user MU ON PR.requester_id = MU.id
-                JOIN m_supplier MS ON PR.supplier_id = MS.Id
-                JOIN approval_request AR ON PR.id = AR.pr_id
-                JOIN approval_member ARM ON AR.approver_id = ARM.id
-                WHERE ARM.user_id = :approverId";
+                PR.id,
+                PR.pr_code requestNumber,
+                DATE_FORMAT(PR.request_date, '%d %b %Y') AS requestDate,
+                PR.status statusId,
+                MST.name statusName,
+                PR.supplier_id,
+                MS.supplier_name,
+                PR.requester_id,
+                MU.username,
+                AR.approver_name,
+                AR.Id approver_id
+            FROM purchase_request PR
+            JOIN m_status MST ON PR.status = MST.value AND MST.code = 'transaction' AND MST.value IN (1,2,3)
+            JOIN m_user MU ON PR.requester_id = MU.id
+            JOIN m_supplier MS ON PR.supplier_id = MS.Id
+            JOIN approval_request AR ON PR.id = AR.pr_id
+            JOIN approval_member ARM ON AR.approver_id = ARM.id
+            WHERE ARM.user_id = :approverId";
 
-        $params = [':approverId' => $approverId];
+        $params = [
+            ':approverId' => $approverId
+        ];
+        if (!empty($dateFrom) && !empty($dateTo)) {
+            $sql .= " AND DATE(PR.request_date) BETWEEN :dateFrom AND :dateTo";
+            $params[':dateFrom'] = $dateFrom;
+            $params[':dateTo'] = $dateTo;
+        }
+        if (!empty($requestNumber)) {
+            $sql .= " AND PR.pr_code LIKE :requestNumber";
+            $params[':requestNumber'] = "%{$requestNumber}%";
+        }
+        if (!empty($statusId)) {
+            $sql .= " AND PR.status = :statusId";
+            $params[':statusId'] = $statusId;
+        }
+        if (!empty($supplierId)) {
+            $sql .= " AND PR.supplier_id = :supplierId";
+            $params[':supplierId'] = $supplierId;
+        }
+
+
         $sql .= " ORDER BY PR.id DESC";
 
-        $row = $this->pdo->prepare($sql);
-        $row->execute($params);
-        return $row->fetchAll();
+        // Gunakan nama variabel $stmt (PDOStatement) agar lebih jelas
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
     }
 
 

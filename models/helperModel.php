@@ -38,4 +38,27 @@ class helperModel
         $response = $row->fetchAll();
         return $response;
     }
+
+    public static function json($status = 200, $message = '', $data = [], $meta = [])
+    {
+        http_response_code($status);
+        header('Content-Type: application/json');
+
+        $response = [
+            'status' => $status,
+            'message' => $message,
+            'result' => $data
+        ];
+
+        if (!empty($meta)) {
+            $response['meta'] = $meta;
+        }
+
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    public static function success($data = [], $message = 'Success', $meta = [])
+    {
+        self::json(200, $message, $data, $meta);
+    }
 }

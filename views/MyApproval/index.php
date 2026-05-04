@@ -13,7 +13,7 @@
             <div class="filter-row">
                 <div class="filter-group">
                     <label class="filter-label">Request Number</label>
-                    <input type="text" class="form-control form-control-modern" name="filter_number" placeholder="Enter request number">
+                    <input type="text" class="form-control form-control-modern" name="requestNumber" placeholder="Enter request number">
                 </div>
                 <div class="filter-group">
                     <div class="date-range-group">
@@ -107,18 +107,67 @@
     });
 
     function searchRequest() {
-        $.ajax({
-            type: 'POST',
-            url: 'middleware/ajax_handler.php?controller=approval&action=approvalList',
-            data: $('#searchForm').serialize(),
-            success: function(response) {
-                $('#approverTable').html(response);
-                $('#tbApprover').DataTable();
+        $("#tbApprover").DataTable({
+            destroy: true,
+            processing: true,
+            ajax: {
+                url: "middleware/ajax_handler.php?controller=approval&action=approvalList",
+                type: "POST",
+                data: function() {
+                    return $("#searchForm").serializeArray();
+                },
+                dataSrc: "result",
             },
-            error: function(err) {
-                alert("Error loading data");
-            }
-        });
+            columns: [{
+                    data: null,
+                    render: function(data, type, row, meta) {
+                        return meta.row + 1;
+                    },
+                },
+                {
+                    data: "requestNumber"
+                },
+                {
+                    data: "requestDate"
+                },
+                {
+                    data: "username"
+                },
+                {
+                    data: "statusName",
+                    render: function(data) {
+                        return `<label class="status-badge ${data}">${data}</label>`;
+                    },
+                },
+                {
+                    data: "supplier_name"
+                },
+                {
+                    data: null,
+                    render: function(data, type, row) {
+                        let qs = "requestNumber=" + row.requestNumber;
+                        let btn = "";
 
+                        if (row.statusId != 2) {
+                            btn += `<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=purchaseRequest/requestDetail&${qs}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>`;
+                        }
+
+                        if (row.statusId == 2) {
+                            let poUrl = "export/pdf/generatePo.php?requestNumber=" + row.requestNumber;
+                            btn += `<a href='${poUrl}' class='btn btn-sm btn-success'><i class='fa-solid fa-download'></i></a>`;
+                        }
+
+                        return btn;
+                    },
+                },
+            ],
+        });
+    }
+
+    function clearRequest() {
+        $("#searchForm")[0].reset();
+        $("#searchForm select.select2").val("").trigger("change");
+        $("#searchForm select.select2").val("0").trigger("change");
+        searchRequest();
     }
 </script>

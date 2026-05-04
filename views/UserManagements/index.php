@@ -12,8 +12,8 @@
         <form id="searchForm">
             <div class="filter-row">
                 <div class="filter-group">
-                    <label class="filter-label">Supplier Code</label>
-                    <input type="text" class="form-control form-control-modern" name="filter_code" placeholder="Enter request number">
+                    <label class="filter-label">Username</label>
+                    <input type="text" class="form-control form-control-modern" name="filter_name" placeholder="Enter username">
                 </div>
 
             </div>
@@ -30,10 +30,10 @@
                 </div>
             </div>
             <div class="d-flex gap-2">
-                <button class="btn btn-primary-modern btn-modern" type="button" onclick="searchSupplier();">
+                <button class="btn btn-primary-modern btn-modern" type="button" onclick="searchUser();">
                     <i class="fas fa-search me-2"></i> Search
                 </button> &nbsp;
-                <button class="btn btn-outline-secondary btn-modern" type="button" onclick="clearSupplier();">
+                <button class="btn btn-outline-secondary btn-modern" type="button" onclick="celarUser();">
                     <i class="fas fa-trash me-2"></i> Clear Filters
                 </button> &nbsp;
                 <a type="button" href="index.php?route=userManagements/userAdd" class="btn btn-primary-modern btn-md mr-2">

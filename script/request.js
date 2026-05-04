@@ -3,20 +3,60 @@ $(document).ready(function () {
 });
 
 function searchRequest() {
-  $.ajax({
-    type: "POST",
-    url: "middleware/ajax_handler.php?controller=purchaseRequest&action=requestList",
-    data: $("#searchForm").serialize(),
-    success: function (response) {
-      if ($.fn.DataTable.isDataTable("#tbRequest")) {
-        $("#tbRequest").DataTable().destroy();
-      }
-      $("#requestTable").html(response);
-      $("#tbRequest").DataTable();
+  $("#tbRequest").DataTable({
+    destroy: true,
+    ajax: {
+      url: "middleware/ajax_handler.php?controller=purchaseRequest&action=requestList",
+      type: "POST",
+      data: function () {
+        return $("#searchForm").serializeArray();
+      },
+      dataSrc: "result",
     },
-    error: function (err) {
-      alert("Error loading data");
-    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "requestNumber" },
+      { data: "requestDate" },
+      { data: "username" },
+      {
+        data: "statusName",
+        render: function (data) {
+          return `<label class="status-badge ${data}">${data}</label>`;
+        },
+      },
+      { data: "supplier_name" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          let btn = "";
+
+          if (row.statusId == 2) {
+            btn += `<a href="export/pdf/generatePo.php?requestNumber=${row.requestNumber}" class="btn btn-sm btn-outline-success action-btn">
+                      <i class="fa-solid fa-download"></i>
+                    </a>`;
+          }
+
+          if (row.statusId == 1) {
+            btn += `<a class="btn btn-sm btn-outline-danger action-btn"
+                        onclick="cancelRequest('${row.requestNumber}')">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>`;
+          }
+
+          btn += `<a href="index.php?route=purchaseRequest/previewRequest&requestNumber=${row.requestNumber}"
+                    class="btn btn-sm btn-outline-primary action-btn">
+                    <i class="fa-solid fa-eye"></i>
+                 </a>`;
+
+          return btn;
+        },
+      },
+    ],
   });
 }
 

@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 class itemController
 {
     protected $model;
@@ -7,45 +10,21 @@ class itemController
         $this->model = new itemModel($db);
     }
 
-    public function getItemList()
+
+    public function getItemLists()
     {
-        $data = $this->model->itemList();
+        $role_id = ($_SESSION['active_login']['role'] ?? null);
+        $items = $this->model->itemList();
 
-        if (empty($data)) {
-            echo '<tr><td colspan="8" style="text-align: center;">No product found.</td></tr>';
-            return;
-        }
+        // Tambahkan role_id ke setiap item
+        $data = array_map(function ($item) use ($role_id) {
+            $item['role_id'] = $role_id;
+            return $item;
+        }, $items);
 
-        foreach ($data as $index => $row) {
-            $qs = http_build_query(['itemId' => $row['Id']]);
-            $itemName = htmlspecialchars($row['item_name'], ENT_QUOTES, 'UTF-8');
-            $type = htmlspecialchars($row['type'], ENT_QUOTES, 'UTF-8');
-            $category = htmlspecialchars($row['category'], ENT_QUOTES, 'UTF-8');
-            $qty = htmlspecialchars($row['qty'], ENT_QUOTES, 'UTF-8');
-            $buyPrice = htmlspecialchars($row['buy_price'], ENT_QUOTES, 'UTF-8');
-            $salesPrice = htmlspecialchars($row['sales_price'], ENT_QUOTES, 'UTF-8');
-            echo "<tr>
-                <td style='width: 5%;'>" . ($index + 1) . "</td>
-                    <td>$itemName</td>
-                    <td>$type</td>
-                    <td>$category</td>
-                    <td>$qty</td>
-                    <td>$buyPrice</td>
-                    <td>$salesPrice</td>
-                    <td>";
-            if (
-                isset($_SESSION['active_login']['role']) &&
-                $_SESSION['active_login']['role'] === 'super_admin'
-            ) {
-                echo "
-                        <a class='btn btn-sm btn-outline-primary action-btn'
-                        href='index.php?route=item/EditSingleItem&{$qs}'>
-                        <i class='fa fa-edit'></i>
-                        </a>";
-            }
-            echo "</td></tr>";
-        }
+        helperModel::json(200, 'Success', $data);
     }
+
 
     public function EditSingleItem()
     {

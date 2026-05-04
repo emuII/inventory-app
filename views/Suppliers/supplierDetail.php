@@ -45,7 +45,7 @@
                         if (!empty($helper)) {
                             foreach ($helper as $obj) {
 
-                                if (!in_array($obj['name'], ['Active', 'In active'])) {
+                                if (!in_array($obj['name'], ['Active', 'inActive'])) {
                                     continue;
                                 }
                         ?>

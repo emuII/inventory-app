@@ -3,21 +3,46 @@ $(document).ready(function () {
 });
 
 function searchDeliveryOrder() {
-  $.ajax({
-    type: "POST",
-    url: "middleware/ajax_handler.php?controller=deliveryOrderLog&action=fetchLogs",
-    data: $("#searchForm").serialize(),
-    success: function (response) {
-      if ($.fn.DataTable.isDataTable("#tableDeliveryOrderLogs")) {
-        $("#tableDeliveryOrderLogs").DataTable().destroy();
-      }
+  $("#tableDeliveryOrderLogs").DataTable({
+    destroy: true,
+    ajax: {
+      url: "middleware/ajax_handler.php?controller=deliveryOrderLog&action=GetLogOrder",
+      type: "POST",
+      data: function () {
+        return $("#searchForm").serializeArray();
+      },
+      dataSrc: "result",
+    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "doCode" },
+      { data: "doDate" },
+      { data: "totalAmount" },
+      { data: "tax" },
+      {
+        data: "statusName",
+        render: function (data) {
+          return `<label class="status-badge ${data}">${data}</label>`;
+        },
+      },
+      {
+        data: null,
+        render: function (data, type, row) {
+          let btn = "";
 
-      $("#deliveryOrderLogs").html(response);
-      $("#tableDeliveryOrderLogs").DataTable();
-    },
-    error: function (err) {
-      alert("Error loading data");
-    },
+          btn += `<a href='index.php?route=deliveryOrderLog/deliveryOrderLog&doNumber=${row.doCode}' class='btn btn-sm btn-outline-primary action-btn' title='Preview'><i class='fa-solid fa-eye'></i></a>`;
+          // $invUrl = base_url('export/pdf/genrateInvoice.php?doNumber=' . $row['doCode']);
+          //             echo "<a href='" . $invUrl . "' class='btn btn-sm btn-outline-success action-btn'><i class='fa-solid fa-download'></i></a>";
+          btn += `<a href='export/pdf/genrateInvoice.php?doNumber=${row.doCode}' class='btn btn-sm btn-outline-success action-btn'><i class='fa-solid fa-download'></i></a>`;
+          return btn;
+        },
+      },
+    ],
   });
 }
 

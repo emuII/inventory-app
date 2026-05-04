@@ -40,23 +40,6 @@ $user_role = $_SESSION['active_login']['role'] ?? 'requestor';
             </div>
         </div>
     </li>
-
-    <!-- Transaction (Super Admin & Requestor) -->
-    <?php if (in_array($user_role, ['super_admin', 'requestor'])): ?>
-        <li class="nav-item active">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
-                aria-controls="collapseFour">
-                <i class="fas fa-fw fa-shopping-cart"></i>
-                <span>Transaction</span>
-            </a>
-            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="index.php?route=purchase">Purchase Request</a>
-                </div>
-            </div>
-        </li>
-    <?php endif; ?>
-
     <!-- Orders -->
     <?php if (in_array($user_role, ['super_admin', 'approval', 'requestor'])): ?>
         <li class="nav-item active">
@@ -67,6 +50,10 @@ $user_role = $_SESSION['active_login']['role'] ?? 'requestor';
             </a>
             <div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
+                    <?php if (in_array($user_role, ['super_admin', 'requestor'])): ?>
+                        <a class="collapse-item" href="index.php?route=purchase">Purchase Request</a>
+                    <?php endif; ?>
+
                     <?php if (in_array($user_role, ['super_admin', 'requestor'])): ?>
                         <a class="collapse-item" href="index.php?route=myrequest">My Request</a>
                     <?php endif; ?>

@@ -11,7 +11,7 @@ class supplierModel
         $filter_code    = htmlentities($_POST['filter_code'] ?? '');
         $filter_name    = htmlentities($_POST['filter_name'] ?? '');
         $filter_contact = htmlentities($_POST['filter_contact'] ?? '');
-        $filter_status  = htmlentities($_POST['filter_status'] ?? '');
+        $filter_status  = htmlentities($_POST['supplier_status'] ?? '');
 
         $sql = "SELECT mst.name as status_name ,mst.desc as status_desc, msp.* FROM m_supplier msp
             JOIN m_status mst ON msp.status = mst.value and mst.code ='general'
@@ -140,6 +140,29 @@ class supplierModel
             $stmt = $this->db->prepare($sql);
             $stmt->execute([
                 ':supplierCode'  => $supplierCode,
+            ]);
+            $this->db->commit();
+            return true;
+        } catch (Throwable $e) {
+            $this->db->rollBack();
+            throw $e;
+        }
+    }
+
+    public function createSupplier(array $data)
+    {
+        $this->db->beginTransaction();
+        try {
+            $sql = "INSERT INTO m_supplier (supplier_code, supplier_name, supplier_address, supplier_contact, status)
+                VALUES (:supplierCode, :supplierName, :supplierAddress, :supplierContact, :supplierStatus)";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([
+                ':supplierCode'  => $data['supplierCode'],
+                ':supplierName'  => $data['supplierName'],
+                ':supplierAddress'  => $data['supplierAddress'],
+                ':supplierContact'  => $data['supplierContact'],
+                ':supplierStatus'  => $data['supplierStatus'],
             ]);
             $this->db->commit();
             return true;

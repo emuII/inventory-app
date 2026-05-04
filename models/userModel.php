@@ -6,18 +6,27 @@ class userModel
     {
         $this->db = $db;
     }
+
     public function GetAllUsers()
     {
-        $filter_number      = htmlentities($_POST['filter_number'] ?? '');
-        $sql = "select * from m_user mu
+        $filter_name      = htmlentities($_POST['filter_name'] ?? '');
+        $sql = "select 
+                mu.Id,
+                mu.username,
+                mu.full_name,
+                mu.email,
+                mu.role,
+                ms.name as statusName
+        from m_user mu
                 join m_status ms on mu.status = ms.value and ms.code ='general';";
 
         $params = [];
 
-        if ($filter_number !== '') {
+        if ($filter_name !== '') {
             $sql .= " AND mu.username LIKE ?";
-            $params[] = "%$filter_number%";
+            $params[] = "%$filter_name%";
         }
+
         $row = $this->db->prepare($sql);
 
         $row->execute($params);

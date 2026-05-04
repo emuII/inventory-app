@@ -3,19 +3,46 @@ $(document).ready(function () {
 });
 
 function searchItem() {
-  $.ajax({
-    type: "POST",
-    url: "middleware/ajax_handler.php?controller=item&action=getItemList",
-    data: $("#searchForm").serialize(),
-    success: function (response) {
-      $("#tableItem").html(response);
-      $("#tbItems").DataTable();
+  $("#tbItems").DataTable({
+    destroy: true,
+    ajax: {
+      url: "middleware/ajax_handler.php?controller=item&action=getItemLists",
+      type: "POST",
+      data: function () {
+        return $("#searchForm").serializeArray();
+      },
+      dataSrc: "result",
     },
-    error: function (err) {
-      alert("Error loading data");
-    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "item_name" },
+      { data: "type" },
+      { data: "category" },
+      { data: "qty" },
+      { data: "buy_price" },
+      { data: "sales_price" },
+      {
+        data: null,
+        render: function (data, type, row) {
+          let btn = "";
+          if (row.role_id == "super_admin") {
+            btn += `<a class='btn btn-sm btn-outline-primary action-btn'
+                        href='index.php?route=item/EditSingleItem&itemId=${row.Id}'>
+                        <i class='fa fa-edit'></i>
+                        </a>`;
+          }
+          return btn;
+        },
+      },
+    ],
   });
 }
+
 function clearRequest() {
   $("#searchForm")[0].reset();
   $("#searchForm select.select2").val("").trigger("change");

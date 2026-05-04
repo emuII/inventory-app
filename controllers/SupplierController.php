@@ -9,45 +9,10 @@ class supplierController
         $this->helper_model = new helperModel($db);
     }
 
-    public function supplier_list()
+    public function getSupplierList()
     {
         $data = $this->model->get_supplier_list();
-
-        if (empty($data)) {
-            echo '<tr><td colspan="7" style="text-align: center;">No supplier found.</td></tr>';
-            return;
-        }
-
-        foreach ($data as $index => $row) {
-
-            $qs = http_build_query(['supplierCode' => $row['supplier_code']]);
-            $supplierName = htmlspecialchars($row['supplier_name']);
-            $supplierAddress = htmlspecialchars($row['supplier_address']);
-            $statusName = htmlspecialchars($row['status_name']);
-            $supplierContact = htmlspecialchars($row['supplier_contact']);
-            $supplierCode = htmlspecialchars($row['supplier_code']);
-
-            echo "<tr>
-                <td style='width: 5%;'>" . ($index + 1) . "</td>
-                <td>{$supplierCode}</td>
-                <td>{$supplierName}</td>
-                <td>{$supplierAddress}</td>
-                <td><label class='status-badge {$statusName}'>{$statusName}</label></td>
-                <td>{$supplierContact}</td>
-                <td>";
-            if (
-                isset($_SESSION['active_login']['role']) &&
-                $_SESSION['active_login']['role'] === 'super_admin'
-            ) {
-                echo "<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=supplier/SupplierDetail&{$qs}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>";
-                echo '<a class="btn btn-sm btn-outline-danger action-btn"
-                        onclick="deleteSupplier(\'' . $supplierCode . '\')"
-                        title="Cancel Request">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>';
-            }
-            echo "</td></tr>";
-        }
+        helperModel::json(200, 'Success', $data);
     }
 
     public function GetSupplierEncode()
@@ -106,6 +71,23 @@ class supplierController
         try {
             $this->model->deleteSupplier($supplierCode);
             echo json_encode(['ok' => true, 'message' => 'Supplier deleted successfully.']);
+        } catch (Throwable $e) {
+            http_response_code(500);
+            echo json_encode(['ok' => false, 'error' => $e->getMessage()]);
+        }
+    }
+
+    public function createSupplier()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $payload = json_decode(file_get_contents('php://input'), true);
+
+        try {
+            $prId = $this->model->createSupplier($payload);
+            echo json_encode(['ok' => true, 'message' => 'Created', 'prId' => $prId]);
         } catch (Throwable $e) {
             http_response_code(500);
             echo json_encode(['ok' => false, 'error' => $e->getMessage()]);

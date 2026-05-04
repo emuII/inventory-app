@@ -3,20 +3,47 @@ $(document).ready(function () {
 });
 
 function searchWareHouse() {
-  $.ajax({
-    type: "POST",
-    url: "middleware/ajax_handler.php?controller=wareHouse&action=warehouseList",
-    data: $("#searchForm").serialize(),
-    success: function (response) {
-      if ($.fn.DataTable.isDataTable("#tbWareHouse")) {
-        $("#tbWareHouse").DataTable().destroy();
-      }
-      $("#wareHouseTable").html(response);
-      $("#tbWareHouse").DataTable();
+  $("#tbWareHouse").DataTable({
+    destroy: true,
+    ajax: {
+      url: "middleware/ajax_handler.php?controller=wareHouse&action=getWarehouseList",
+      type: "POST",
+      data: function () {
+        return $("#searchForm").serializeArray();
+      },
+      dataSrc: "result",
     },
-    error: function (err) {
-      alert("Error loading data");
-    },
+    columns: [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "requestNumber" },
+      { data: "orderQty" },
+      { data: "receiveQty" },
+      { data: "totalAmount" },
+      { data: "dateIn" },
+      { data: "supplierName" },
+      { data: "requestedBy" },
+      {
+        data: "statusName",
+        render: function (data) {
+          return `<label class="status-badge ${data}">${data}</label>`;
+        },
+      },
+      {
+        data: null,
+        render: function (data, type, row) {
+          let btn = "";
+
+          btn += `<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=warehouse/wareHouseDetail&warehouseId=${row.warehouseId}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>`;
+
+          return btn;
+        },
+      },
+    ],
   });
 }
 

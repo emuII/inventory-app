@@ -12,29 +12,7 @@ class userManagementController
     public function GetAllUsers()
     {
         $data = $this->users->GetAllUsers();
-        if (empty($data)) {
-            echo '<tr><td colspan="7" style="text-align: center;">No user found.</td></tr>';
-            return;
-        }
-        foreach ($data as $index => $row) {
-            $qs = http_build_query(['userId' => $row['id']]);
-            $username = htmlspecialchars($row['username']);
-            $fullName = htmlspecialchars($row['full_name']);
-            $role = htmlspecialchars($row['role']);
-            $statusName = htmlspecialchars($row['name']);
-            $email = htmlspecialchars($row['email']);
-
-            echo "<tr>
-                <td style='width: 5%;'>" . ($index + 1) . "</td>
-                <td>{$username}</td>
-                <td>{$fullName}</td>
-                <td>{$role}</td>
-                <td><label class='status-badge {$statusName}'>{$statusName}</label></td>
-                <td>{$email}</td>
-                <td>";
-            echo "<a class='btn btn-sm btn-outline-primary action-btn' href='index.php?route=UserManagement/userUpdate&{$qs}' class='btn btn-sm btn-primary'><i class='fa fa-edit'></i></a>";
-            echo "</td></tr>";
-        }
+        helperModel::json(200, 'Success', $data);
     }
 
     public function AddUser()

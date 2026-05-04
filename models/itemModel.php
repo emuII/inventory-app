@@ -12,7 +12,7 @@ class itemModel
     public function itemList()
     {
         $filter_name    = htmlentities($_POST['filter_name'] ?? '');
-        $filert_type    = htmlentities($_POST['filter_type'] ?? '');
+        $filter_type    = htmlentities($_POST['filter_type'] ?? '');
 
         $query = "SELECT itm.Id,
                     itm.item_name,
@@ -30,9 +30,10 @@ class itemModel
             $query .= " AND itm.item_name LIKE ?";
             $params[] = "%$filter_name%";
         }
-        if (!empty($filert_type)) {
-            $query .= " AND itm.type LIKE ?";
-            $params[] = "%$filert_type%";
+        if (!empty($filter_type)) {
+
+            $query .= " AND  itm.type = ?";
+            $params[] = $filter_type;
         }
         $query .= " ORDER BY itm.id DESC";
         $row = $this->pdo->prepare($query);

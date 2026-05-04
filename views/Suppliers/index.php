@@ -27,7 +27,7 @@
             <div class="filter-row">
                 <div class="filter-group" style="width: 27em;">
                     <label class="filter-label">Status</label>
-                    <select class="form-control form-control-modern select2" name="warehouse_status">
+                    <select class="form-control form-control-modern select2" name="supplier_status">
                         <option value="0">All Statuses</option>
                         <?php $response_data = $helper_model->getStatus("general");
                         foreach ($response_data as $obj) {     ?>
@@ -87,7 +87,7 @@
                     <h5 class="modal-title">Add Supplier</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="service/supplierService.php?add_supplier=add_supplier" method="POST">
+                <form id="spForm" method="post" onsubmit="return false;">
                     <div class="modal-body">
                         <table class="table table-borderless">
                             <?php
@@ -133,7 +133,7 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-primary" onclick="createSupplier();">Submit</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </form>
