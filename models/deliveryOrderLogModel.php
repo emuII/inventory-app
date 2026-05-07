@@ -21,7 +21,6 @@ class deliveryOrderLogModel
                         DO.do_code doCode,
                         DATE_FORMAT(DO.do_date, '%d %b %Y') AS doDate,
                         FORMAT(DO.total_amount, 0, 'id_ID') AS totalAmount,
-                        FORMAT(DO.tax, 0, 'id_ID') AS  tax,
                         MST.name statusName
                     FROM delivery_order DO
                     LEFT JOIN m_status MST ON DO.status = MST.value AND MST.code = 'delivery_order'
@@ -81,12 +80,10 @@ class deliveryOrderLogModel
                 DVO.do_code,
                 DATE_FORMAT(DVO.do_date, '%d %b %Y') AS formatted_date,
                 DVO.do_date,
-                FORMAT((DVO.total_amount - DVO.tax), 0, 'id_ID') AS formatted_subtotal,
+                FORMAT((DVO.total_amount), 0, 'id_ID') AS formatted_subtotal,
                 FORMAT(DVO.total_amount, 0, 'id_ID') AS formatted_grand_total,
-                FORMAT(DVO.tax, 0, 'id_ID') AS formatted_tax,
                 DVO.total_amount,
-                DVO.tax,
-                (DVO.total_amount - DVO.tax) AS subtotal,
+                (DVO.total_amount) AS subtotal,
                 (
                     SELECT SUM(qty) 
                     FROM delivery_order_detail d1 

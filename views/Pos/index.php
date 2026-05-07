@@ -87,14 +87,7 @@
                         <span id="subtotal">Rp 0</span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <strong>Tax (10%):</strong>
-                    </div>
-                    <div class="col-6 text-end">
-                        <span id="tax">Rp 0</span>
-                    </div>
-                </div>
+
                 <div class="row mb-4">
                     <div class="col-6">
                         <h5><strong>Total:</strong></h5>

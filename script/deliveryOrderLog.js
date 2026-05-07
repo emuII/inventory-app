@@ -23,7 +23,6 @@ function searchDeliveryOrder() {
       { data: "doCode" },
       { data: "doDate" },
       { data: "totalAmount" },
-      { data: "tax" },
       {
         data: "statusName",
         render: function (data) {

@@ -314,10 +314,6 @@ ob_start();
                     <td class="label">Subtotal</td>
                     <td class="value"><?= htmlspecialchars($invoiceData['subTotal']) ?></td>
                 </tr>
-                <tr>
-                    <td class="label">VAT (10%)</td>
-                    <td class="value"><?= htmlspecialchars($invoiceData['tax']) ?></td>
-                </tr>
                 <tr class="total-row">
                     <td class="label">Total</td>
                     <td class="value"><?= htmlspecialchars($invoiceData['totalAmount']) ?></td>

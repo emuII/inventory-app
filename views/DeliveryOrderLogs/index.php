@@ -65,7 +65,6 @@
                     <th>Do Number</th>
                     <th>Do Date</th>
                     <th>Total Amount</th>
-                    <th>Tax</th>
                     <th>Status</th>
                     <th></th>
                 </tr>

@@ -8,7 +8,7 @@ $(document).ready(function () {
   $("#current-date").text(
     `${now.getDate().toString().padStart(2, "0")}/${(now.getMonth() + 1)
       .toString()
-      .padStart(2, "0")}/${now.getFullYear()}`
+      .padStart(2, "0")}/${now.getFullYear()}`,
   );
 
   // Load data via AJAX
@@ -79,7 +79,7 @@ $(document).ready(function () {
 
 function loadItemsData() {
   $("#items-table tbody").html(
-    '<tr><td colspan="4" class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><div class="mt-2">Loading data...</div></td></tr>'
+    '<tr><td colspan="4" class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><div class="mt-2">Loading data...</div></td></tr>',
   );
 
   $.ajax({
@@ -276,7 +276,7 @@ function initializeDataTable() {
             } else {
               // Hapus dari selectedItems jika dicentang ulang
               selectedItems = selectedItems.filter(
-                (item) => item.id !== itemId
+                (item) => item.id !== itemId,
               );
             }
 
@@ -313,7 +313,7 @@ function renderBasicTable() {
                     <span class="badge ${badgeClass}">${badgeText}</span>
                 </td>
                 <td class="align-middle text-end">${item.price.toLocaleString(
-                  "id-ID"
+                  "id-ID",
                 )}</td>
             </tr>
         `;
@@ -417,7 +417,7 @@ function clearSelection() {
 }
 function addToCart(item, qty) {
   const existingItemIndex = cart.findIndex(
-    (cartItem) => cartItem.id === item.id
+    (cartItem) => cartItem.id === item.id,
   );
 
   if (existingItemIndex !== -1) {
@@ -472,7 +472,7 @@ function renderCart() {
                         </div>
                     </td>
                     <td class="align-middle text-end">${item.price.toLocaleString(
-                      "id-ID"
+                      "id-ID",
                     )}</td>
                    
                     <td class="align-middle text-center">
@@ -581,11 +581,12 @@ function removeFromCart(itemId) {
 
 function calculateTotal() {
   const subtotal = cart.reduce((sum, item) => sum + item.subtotal, 0);
-  const tax = subtotal * 0.1;
-  const total = subtotal + tax;
+  // const tax = subtotal * 0.1;
+  // const total = subtotal + tax;
+  const total = subtotal;
 
   $("#subtotal").text(`${subtotal.toLocaleString("id-ID")}`);
-  $("#tax").text(`${tax.toLocaleString("id-ID")}`);
+  // $("#tax").text(`${tax.toLocaleString("id-ID")}`);
   $("#total").text(`${total.toLocaleString("id-ID")}`);
 }
 
@@ -650,7 +651,7 @@ function simulateCheckout() {
         quantity: item.qty,
         subtotal: item.subtotal,
       })),
-      tax: cart.reduce((sum, item) => sum + item.subtotal, 0) * 0.1,
+      // tax: cart.reduce((sum, item) => sum + item.subtotal, 0) * 0.1,
       totalAmount: cart.reduce((sum, item) => sum + item.subtotal, 0) * 1.1,
     };
 
@@ -658,7 +659,7 @@ function simulateCheckout() {
     checkoutBtn
       .prop("disabled", true)
       .html(
-        '<span class="spinner-border spinner-border-sm" role="status"></span> Processing...'
+        '<span class="spinner-border spinner-border-sm" role="status"></span> Processing...',
       );
 
     $.ajax({
@@ -683,7 +684,7 @@ function simulateCheckout() {
         } else {
           // Failure case - reject with appropriate message
           reject(
-            response && response.message ? response.message : "Checkout failed"
+            response && response.message ? response.message : "Checkout failed",
           );
         }
       },
